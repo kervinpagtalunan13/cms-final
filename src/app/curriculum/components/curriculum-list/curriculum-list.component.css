@@ -10,7 +10,6 @@ table {
   padding-right: 15px;
   border-radius: 1rem;
   font-weight: 100;
-  color: white;
   font-size: 15px;
 }
 .title{
@@ -23,7 +22,7 @@ table {
 }
 .container{
   width: 90%;
-  background-color: white;
+  height: 100vh;
 }
 .tit{
   /* margin-right: 100px;

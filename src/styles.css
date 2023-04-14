@@ -4,8 +4,8 @@
 @import "https://fonts.googleapis.com/icon?family=Material+Icons";
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
 .inputs{
-    outline: 0;
-    border-width: 0 0 2px;
+    /* outline: 0;
+    border-width: 0 0 2px; */
     /* font-family: 'century gothic' !important; */
 }
 .button:hover{
@@ -18,10 +18,10 @@ body {
     /* font-family: Roboto, "Helvetica Neue", sans-serif;  */
 }
 * {
-    font-family: Roboto, "Helvetica Neue", sans-serif !important;
+    /* font-family: Roboto, "Helvetica Neue", sans-serif !important; */
 }
-.material-icons{
+/* .material-icons{
     font-family: 'Material Icons' !important;
-}
+} */
 
 

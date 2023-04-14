@@ -2,7 +2,7 @@
   <div class="container" *ngIf="neededData$ | async">
     <div class="row align-items-stretch py-4 px-2 gy-2">
       <div class="col-lg-4">
-        <div class="profile-container bg-white rounded p-3">
+        <div class="mat-card theme-light" style="padding:30px; filter:contrast(1.5);">
           <div class="image-wrapper text-center">
             <img
               src="{{
@@ -32,7 +32,7 @@
         </div>
       </div>
       <div class="col-lg-8">
-        <div class="profile-container bg-white rounded p-3">
+        <div class="mat-card theme-light" style="padding:30px; filter:contrast(1.5)">
           <mat-tab-group>
             <mat-tab label="Profile">
               <form

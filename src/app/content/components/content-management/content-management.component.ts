@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
-import {AppComponent} from 'src/app/app.component';
+import {Main} from 'src/main';
 @Component({
   selector: 'app-content-management',
   templateUrl: './content-management.component.html',
   styleUrls: ['./content-management.component.css']
 })
 export class ContentManagementComponent {
- toggleTheme = new AppComponent();
+ toggleTheme = new Main();
  isDark=false;
  toggle(){
   if(!this.isDark)

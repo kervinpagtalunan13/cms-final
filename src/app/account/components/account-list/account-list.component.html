@@ -1,9 +1,9 @@
-<div class="container">
-  <table class="table">
+<div style="width: 90vw; margin:auto;">
+  <table class="mat-table theme-light" style="filter: contrast(1.5);">
     <thead>
       <tr>
-        <th scope="col" style="padding: 40px">
-          <span class="tit">Accounts</span>
+        <th style="padding: 40px">
+          <span class="margin-right: 100px; font-size: 25px;">Accounts</span>
         </th>
         <th style="padding: 20px">
           <mat-form-field style="width: 200px" class="example-form-field">
@@ -33,9 +33,9 @@
     </thead>
     <tbody>
       <tr *ngFor="let user of displayedItems">
-        <td scope="row">
-          <div class="float-left d-flex p-3 flex-column">
-            <div class="title d-inline-flex">
+        <td>
+          <div style="float: left; display:flex; flex:column; padding:30px;">
+            <div style="display: inline-flex;">
               <img
                 [src]="user?.profile?.profile_pic"
                 width="70px"

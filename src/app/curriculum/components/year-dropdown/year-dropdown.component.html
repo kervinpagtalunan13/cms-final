@@ -6,7 +6,7 @@
     class="d-flex align-items-center {{ !descriptiveTitle && 'mt-2' }}"
     style=""
   >
-    <span class="fw-semibold mt-0 fs-4 me-2 text-body">{{ title }}</span>
+    <h1>{{ title }}</h1>
     <span
       class="badge rounded-pill text-bg-primary mt-0 me-2"
       *ngIf="status == 'p'"
@@ -140,14 +140,14 @@
     </button>
   </div>
 </header>
-<mat-accordion>
+<mat-accordion style="filter:contrast(1.5);">
   <mat-expansion-panel
     (opened)="panelOpenState = true"
     (closed)="panelOpenState = false"
     *ngFor="let subjects of subject; let x = index"
   >
-    <mat-expansion-panel-header style="background-color: #f1d7d6">
-      <mat-panel-title class="panel-text"
+    <mat-expansion-panel-header>
+      <mat-panel-title class="mat-panel-title theme-dark"
         >{{ assignYearX(x) }} Year</mat-panel-title
       >
     </mat-expansion-panel-header>
@@ -164,7 +164,7 @@
       <!-- <thead *ngIf="isAddFormShow[x][0]"> -->
       <thead *ngIf="isAddFormShow[x]['firstSem']">
         <tr>
-          <td colspan="9" class="forms">
+          <td colspan="9" class="add-edit">
             <div>
               <mat-icon color="primary">add</mat-icon
               ><strong>Add Subject</strong>
@@ -172,11 +172,10 @@
             <form
               #firstSemesterForm="ngForm"
               (ngSubmit)="addSubject(firstSemesterForm, x, 'firstSem')"
-              class="mb-0"
             >
               <mat-form-field
                 class="subject-input"
-                style="width: 80px; margin-left: 10px"
+                style="width: 80px;"
                 ><input
                   name="courseCode"
                   matInput
@@ -200,7 +199,7 @@
                 </mat-autocomplete>
               </mat-form-field>
 
-              <mat-form-field class="subject-input" style="width: 200px"
+              <mat-form-field class="subject-input" style="width: 200px; margin-left:30px;"
                 ><input
                   name="descriptiveTitle"
                   matInput
@@ -227,7 +226,7 @@
                 </mat-autocomplete>
               </mat-form-field>
 
-              <mat-form-field class="subject-input" style="width: 60px"
+              <mat-form-field class="subject-input" style="width: 60px; margin-left:30px;"
                 ><input
                   name="lecUnits"
                   matInput
@@ -238,7 +237,7 @@
                   required
               /></mat-form-field>
 
-              <mat-form-field class="subject-input" style="width: 60px"
+              <mat-form-field class="subject-input" style="width: 60px; margin-left:30px;"
                 ><input
                   name="labUnits"
                   matInput
@@ -249,7 +248,7 @@
                   required
               /></mat-form-field>
 
-              <mat-form-field class="subject-input" style="width: 60px"
+              <mat-form-field class="subject-input" style="width: 60px; margin-left:30px;"
                 ><input
                   name="totalUnits"
                   matInput
@@ -259,7 +258,7 @@
                   required
               /></mat-form-field>
 
-              <mat-form-field class="subject-input" style="width: 90px"
+              <mat-form-field class="subject-input" style="width: 90px; margin-left:30px;"
                 ><input
                   name="hoursPerWeek"
                   matInput
@@ -269,7 +268,7 @@
                   required
               /></mat-form-field>
 
-              <mat-form-field class="subject-input" style="width: 80px">
+              <mat-form-field class="subject-input" style="width: 80px ; margin-left:30px;">
                 <mat-label>Pre-Requisite</mat-label
                 ><mat-select
                   name="preReq"
@@ -286,7 +285,7 @@
                 </mat-select>
               </mat-form-field>
 
-              <mat-form-field class="subject-input" style="width: 80px">
+              <mat-form-field class="subject-input" style="width: 80px; margin-left:30px;">
                 <mat-label>Co-Requisite</mat-label
                 ><mat-select
                   name="coReq"
@@ -325,11 +324,12 @@
             }}</small>
           </td>
         </tr>
+      
       </thead>
 
       <thead *ngIf="isEditFormShow[x]['firstSem']">
         <tr>
-          <td colspan="9" class="forms">
+          <td colspan="9" class="add-edit">
             <div>
               <mat-icon color="primary">edit</mat-icon
               ><strong>Edit Subject</strong>
@@ -338,7 +338,7 @@
               #editForm="ngForm"
               (ngSubmit)="editCourse(editForm, x, 'firstSem')"
             >
-              <mat-form-field class="subject-input" style="width: 80px"
+              <mat-form-field class="subject-input" style="width: 80px; margin-left:30px;"
                 ><input
                   name="courseCode"
                   matInput
@@ -364,7 +364,7 @@
                 </mat-autocomplete>
               </mat-form-field>
 
-              <mat-form-field class="subject-input" style="width: 140px"
+              <mat-form-field class="subject-input" style="width: 140px; margin-left:30px;"
                 ><input
                   name="descriptiveTitle"
                   matInput
@@ -388,7 +388,7 @@
                 </mat-autocomplete>
               </mat-form-field>
 
-              <mat-form-field class="subject-input" style="width: 60px"
+              <mat-form-field class="subject-input" style="width: 60px; margin-left:30px;"
                 ><input
                   name="lecUnits"
                   matInput
@@ -399,7 +399,7 @@
                   required
               /></mat-form-field>
 
-              <mat-form-field class="subject-input" style="width: 60px"
+              <mat-form-field class="subject-input" style="width: 60px; margin-left:30px;"
                 ><input
                   name="labUnits"
                   matInput
@@ -410,7 +410,7 @@
                   required
               /></mat-form-field>
 
-              <mat-form-field class="subject-input" style="width: 60px"
+              <mat-form-field class="subject-input" style="width: 60px; margin-left:30px;"
                 ><input
                   name="totalUnits"
                   matInput
@@ -420,7 +420,7 @@
                   required
               /></mat-form-field>
 
-              <mat-form-field class="subject-input" style="width: 90px"
+              <mat-form-field class="subject-input" style="width: 90px; margin-left:30px;"
                 ><input
                   name="hoursPerWeek"
                   matInput
@@ -430,7 +430,7 @@
                   required
               /></mat-form-field>
 
-              <mat-form-field class="subject-input" style="width: 80px">
+              <mat-form-field class="subject-input" style="width: 80px; margin-left:30px;">
                 <mat-label>Pre-Requisite</mat-label
                 ><mat-select
                   name="preReq"
@@ -447,7 +447,7 @@
                 </mat-select>
               </mat-form-field>
 
-              <mat-form-field class="subject-input" style="width: 80px">
+              <mat-form-field class="subject-input" style="width: 80px; margin-left:30px;">
                 <mat-label>Co-Requisite</mat-label
                 ><mat-select
                   name="coReq"
@@ -487,33 +487,35 @@
           </td>
         </tr>
       </thead>
+      <mat-divider style="margin-top: 15px; margin-bottom:15px;"></mat-divider>
       <strong>First Semester</strong>
-      <table class="table">
+      <mat-divider style="margin-top: 15px; margin-bottom:15px;"></mat-divider>
+      <table>
         <thead class="thead-dark">
           <tr>
-            <th scope="col">Course Code</th>
-            <th scope="col">Descriptive Title</th>
-            <th scope="col">Lec Units</th>
-            <th scope="col">Lab Units</th>
-            <th scope="col">Total Units</th>
-            <th scope="col">Hours Per Week</th>
-            <th scope="col">Pre-Req</th>
-            <th scope="col">Co-Req</th>
-            <th scope="col">Actions</th>
+            <th style="padding-right: 10px;">Course Code</th>
+            <th style="padding-right: 30px;">Descriptive Title</th>
+            <th style="padding-right: 30px;">Lec Units</th>
+            <th style="padding-right: 30px;">Lab Units</th>
+            <th style="padding-right: 30px;">Total Units</th>
+            <th style="padding-right: 30px;">Hours Per Week</th>
+            <th style="padding-right: 30px;">Pre-Req</th>
+            <th style="padding-right: 20px;">Co-Req</th>
+            <th style="padding-right: 30px;">Actions</th>
           </tr>
         </thead>
 
         <tbody>
           <tr *ngFor="let subjects of subject"></tr>
           <tr *ngFor="let course of subjects.firstSem; let i = index">
-            <td scope="row">{{ course.courseCode }}</td>
-            <td>{{ course.descriptiveTitle }}</td>
-            <td>{{ course.lecUnits }}</td>
-            <td>{{ course.labUnits }}</td>
-            <td>{{ course.totalUnits }}</td>
-            <td>{{ course.hoursPerWeek }}</td>
-            <td>{{ course.preReq || "None" }}</td>
-            <td>{{ course.coReq || "None" }}</td>
+            <td  style="padding-right: 10px;">{{ course.courseCode }}</td>
+            <td  style="padding-right: 30px;">{{ course.descriptiveTitle }}</td>
+            <td  style="padding-right: 30px;">{{ course.lecUnits }}</td>
+            <td  style="padding-right: 30px;">{{ course.labUnits }}</td>
+            <td  style="padding-right: 30px;">{{ course.totalUnits }}</td>
+            <td  style="padding-right: 30px;">{{ course.hoursPerWeek }}</td>
+            <td  style="padding-right: 30px;">{{ course.preReq || "None" }}</td>
+            <td  style="padding-right: 20px;">{{ course.coReq || "None" }}</td>
             <td>
               <button mat-icon-button color="primary" [title]="view">
                 <mat-icon>remove_red_eye</mat-icon>
@@ -539,15 +541,19 @@
             </td>
           </tr>
           <tr>
-            <div>
-              <span class="fs-6 text-dark me-2"
-                >Total Units: {{ getTotalUnits(x, 0) }}</span
+            <td colspan="9">
+              <mat-divider></mat-divider>
+            <div style="margin-top: 15px; margin-bottom:15px;">
+              <strong style="margin-right: 10px;"
+                >Total Units: {{ getTotalUnits(x, 0) }}</strong
               >
-              <span class="fs-6 text-dark me-2"
-                >Total Hrs/Week: {{ getTotalHrs(x, 0) }}</span
+              <strong
+                >Total Hrs/Week: {{ getTotalHrs(x, 0) }}</strong
               >
-            </div>
+            </div><mat-divider></mat-divider>
+          </td>
           </tr>
+          
         </tbody>
       </table>
     </div>
@@ -566,7 +572,7 @@
       <!-- <thead *ngIf="isAddFormShow[x][1]"> -->
       <thead *ngIf="isAddFormShow[x]['secondSem']">
         <tr>
-          <td colspan="9" class="forms">
+          <td colspan="9" class="add-edit">
             <div>
               <mat-icon color="primary">add</mat-icon
               ><strong>Add Subject</strong>
@@ -575,7 +581,7 @@
               #secondSemesterForm="ngForm"
               (ngSubmit)="addSubject(secondSemesterForm, x, 'secondSem')"
             >
-              <mat-form-field class="subject-input" style="width: 80px"
+              <mat-form-field class="subject-input" style="width: 80px; margin-left:30px;"
                 ><input
                   name="courseCode"
                   matInput
@@ -602,7 +608,7 @@
                   </mat-option>
                 </mat-autocomplete>
               </mat-form-field>
-              <mat-form-field class="subject-input" style="width: 140px"
+              <mat-form-field class="subject-input" style="width: 140px; margin-left:30px;"
                 ><input
                   name="descriptiveTitle"
                   matInput
@@ -629,7 +635,7 @@
                 </mat-autocomplete></mat-form-field
               >
 
-              <mat-form-field class="subject-input" style="width: 60px"
+              <mat-form-field class="subject-input" style="width: 60px; margin-left:30px;"
                 ><input
                   name="lecUnits"
                   matInput
@@ -640,7 +646,7 @@
                   required
               /></mat-form-field>
 
-              <mat-form-field class="subject-input" style="width: 60px"
+              <mat-form-field class="subject-input" style="width: 60px; margin-left:30px;"
                 ><input
                   name="labUnits"
                   matInput
@@ -651,7 +657,7 @@
                   required
               /></mat-form-field>
 
-              <mat-form-field class="subject-input" style="width: 60px"
+              <mat-form-field class="subject-input" style="width: 60px; margin-left:30px;"
                 ><input
                   name="totalUnits"
                   matInput
@@ -661,7 +667,7 @@
                   required
               /></mat-form-field>
 
-              <mat-form-field class="subject-input" style="width: 90px"
+              <mat-form-field class="subject-input" style="width: 90px; margin-left:30px;"
                 ><input
                   name="hoursPerWeek"
                   matInput
@@ -671,7 +677,7 @@
                   required
               /></mat-form-field>
 
-              <mat-form-field class="subject-input" style="width: 80px">
+              <mat-form-field class="subject-input" style="width: 80px; margin-left:30px;">
                 <mat-label>Pre-Requisite</mat-label
                 ><mat-select
                   name="preReq"
@@ -691,7 +697,7 @@
                 </mat-select>
               </mat-form-field>
 
-              <mat-form-field class="subject-input" style="width: 80px">
+              <mat-form-field class="subject-input" style="width: 80px; margin-left:30px;">
                 <mat-label>Co-Requisite</mat-label
                 ><mat-select
                   name="coReq"
@@ -734,7 +740,7 @@
 
       <thead *ngIf="isEditFormShow[x]['secondSem']">
         <tr>
-          <td colspan="9" class="forms">
+          <td colspan="9" class="add-edit">
             <div>
               <strong
                 ><mat-icon color="primary">edit</mat-icon>Edit Subject</strong
@@ -744,7 +750,7 @@
               #editForm="ngForm"
               (ngSubmit)="editCourse(editForm, x, 'secondSem')"
             >
-              <mat-form-field class="subject-input" style="width: 80px"
+              <mat-form-field class="subject-input" style="width: 80px; margin-left:30px;"
                 ><input
                   name="courseCode"
                   matInput
@@ -770,7 +776,7 @@
                 </mat-autocomplete></mat-form-field
               >
 
-              <mat-form-field class="subject-input" style="width: 140px"
+              <mat-form-field class="subject-input" style="width: 140px; margin-left:30px;"
                 ><input
                   name="descriptiveTitle"
                   matInput
@@ -794,7 +800,7 @@
                 </mat-autocomplete></mat-form-field
               >
 
-              <mat-form-field class="subject-input" style="width: 60px"
+              <mat-form-field class="subject-input" style="width: 60px; margin-left:30px;"
                 ><input
                   name="lecUnits"
                   matInput
@@ -805,7 +811,7 @@
                   required
               /></mat-form-field>
 
-              <mat-form-field class="subject-input" style="width: 60px"
+              <mat-form-field class="subject-input" style="width: 60px; margin-left:30px;"
                 ><input
                   name="labUnits"
                   matInput
@@ -816,7 +822,7 @@
                   required
               /></mat-form-field>
 
-              <mat-form-field class="subject-input" style="width: 60px"
+              <mat-form-field class="subject-input" style="width: 60px; margin-left:30px;"
                 ><input
                   name="totalUnits"
                   matInput
@@ -826,7 +832,7 @@
                   required
               /></mat-form-field>
 
-              <mat-form-field class="subject-input" style="width: 90px"
+              <mat-form-field class="subject-input" style="width: 90px; margin-left:30px;"
                 ><input
                   name="hoursPerWeek"
                   matInput
@@ -836,7 +842,7 @@
                   required
               /></mat-form-field>
 
-              <mat-form-field class="subject-input" style="width: 80px">
+              <mat-form-field class="subject-input" style="width: 80px; margin-left:30px;">
                 <mat-label>Pre-Requisite</mat-label
                 ><mat-select
                   name="preReq"
@@ -856,7 +862,7 @@
                 </mat-select>
               </mat-form-field>
 
-              <mat-form-field class="subject-input" style="width: 80px">
+              <mat-form-field class="subject-input" style="width: 80px; margin-left:30px;">
                 <mat-label>Co-Requisite</mat-label
                 ><mat-select
                   name="coReq"
@@ -896,34 +902,35 @@
           </td>
         </tr>
       </thead>
-
+      <mat-divider style="margin-top: 15px; margin-bottom:15px;"></mat-divider>
       <strong>Second Semester</strong>
-      <table class="table">
+      <mat-divider style="margin-top: 15px; margin-bottom:15px;"></mat-divider>
+      <table>
         <thead class="thead-dark">
           <tr>
-            <th scope="col">Course Code</th>
-            <th scope="col">Descriptive Title</th>
-            <th scope="col">Lec Units</th>
-            <th scope="col">Lab Units</th>
-            <th scope="col">Total Units</th>
-            <th scope="col">Hours Per Week</th>
-            <th scope="col">Pre-Req</th>
-            <th scope="col">Co-Req</th>
-            <th scope="col">Actions</th>
+            <th style="padding-right: 30px;">Course Code</th>
+            <th style="padding-right: 30px;">Descriptive Title</th>
+            <th style="padding-right: 30px;">Lec Units</th>
+            <th style="padding-right: 30px;">Lab Units</th>
+            <th style="padding-right: 30px;">Total Units</th>
+            <th style="padding-right: 30px;">Hours Per Week</th>
+            <th style="padding-right: 30px;">Pre-Req</th>
+            <th style="padding-right: 30px;">Co-Req</th>
+            <th style="padding-right: 30px;">Actions</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let subjects of subject"></tr>
           <tr *ngFor="let course of subjects.secondSem; let i = index">
-            <td scope="row">{{ course.courseCode }}</td>
-            <td>{{ course.descriptiveTitle }}</td>
-            <td>{{ course.lecUnits }}</td>
-            <td>{{ course.labUnits }}</td>
-            <td>{{ course.totalUnits }}</td>
-            <td>{{ course.hoursPerWeek }}</td>
-            <td>{{ course.preReq || "None" }}</td>
-            <td>{{ course.coReq || "None" }}</td>
-            <td>
+            <td style="padding-right: 30px;">{{ course.courseCode }}</td>
+            <td style="padding-right: 30px;">{{ course.descriptiveTitle }}</td>
+            <td style="padding-right: 30px;">{{ course.lecUnits }}</td>
+            <td style="padding-right: 30px;">{{ course.labUnits }}</td>
+            <td style="padding-right: 30px;">{{ course.totalUnits }}</td>
+            <td style="padding-right: 30px;">{{ course.hoursPerWeek }}</td>
+            <td style="padding-right: 30px;">{{ course.preReq || "None" }}</td>
+            <td style="padding-right: 30px;">{{ course.coReq || "None" }}</td>
+            <td style="padding-right: 30px;">
               <button mat-icon-button color="primary" [title]="view">
                 <mat-icon>remove_red_eye</mat-icon>
               </button>
@@ -948,14 +955,17 @@
             </td>
           </tr>
           <tr class="">
-            <div class="">
-              <span class="fs-6 text-dark me-2"
-                >Total Units: {{ getTotalUnits(x, 1) }}</span
+            <td colspan="9">
+              <mat-divider></mat-divider>
+              <div style="margin-top:15px; margin-bottom:15px;">
+              <strong style="margin-right: 10px;"
+                >Total Units: {{ getTotalUnits(x, 1) }}</strong
               >
-              <span class="fs-6 text-dark me-2"
-                >Total Hrs/Week: {{ getTotalHrs(x, 1) }}</span
-              >
-            </div>
+              <strong
+                >Total Hrs/Week: {{ getTotalHrs(x, 1) }}</strong
+              ></div>
+              <mat-divider></mat-divider>
+          </td>
           </tr>
         </tbody>
       </table>

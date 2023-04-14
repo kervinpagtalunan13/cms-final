@@ -1,11 +1,8 @@
-.all{
-    background-color: white;
-}
+
 .container {
     display: flex;
   flex-direction: column;
   align-items: center;
-  background-color: white;
   }
   .form{
     display: flex;

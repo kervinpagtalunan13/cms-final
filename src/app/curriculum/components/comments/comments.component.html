@@ -1,10 +1,10 @@
-<div class="container-fluid">
+<div class="container-fluid" style="filter: contrast(1); border-radius:1rem; width:110%;">
   <h2 class="comments d-flex align-items-center my-2">
     <span class="me-1">Comments</span>
     <mat-icon class="mt-1">chat</mat-icon>
   </h2>
-  <div class="my-2">
-    <div class="chat-c" [ngStyle]="{ 'max-height': height + 'px' }">
+  <div class="my-2" style="overflow:scroll; height:84vh;">
+    <div  [ngStyle]="{ 'max-height': height + 'px' }">
       <mat-card class="shadow p-4" *ngIf="comments.length == 0">
         <mat-card-content class="text-center">
           <div>

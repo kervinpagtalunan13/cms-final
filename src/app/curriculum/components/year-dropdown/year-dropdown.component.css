@@ -1,0 +1,22 @@
+.add-edit{
+    border-width: 2px;
+    border-color: #D05834;
+    padding: 20px; 
+    padding-top:10px; 
+    padding-bottom:10px; 
+    border-radius:1rem;
+    animation-name: addEdit;
+    animation-duration: 1.5s;
+    animation-iteration-count: 3;
+}
+
+
+@keyframes addEdit {
+    from {
+        box-shadow: 0.5px 0.5px 0.5px 0.5px #D05834; 
+    }
+    to {
+        box-shadow: 1px 1px 1px 1px red; 
+    }
+  }
+

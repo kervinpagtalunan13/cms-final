@@ -1,4 +1,4 @@
-<div class="container" *ngIf="(neededData$ | async) && canCreate()">
+<div class="mat-card theme-light" style="height:100vh; width: 85%; padding:30px; margin:auto;" *ngIf="(neededData$ | async) && canCreate()">
   <app-year-dropdown
     [subject]="subject"
     [type]="type"

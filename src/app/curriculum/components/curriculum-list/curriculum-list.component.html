@@ -1,4 +1,4 @@
-<div class="container pt-2" *ngIf="neededData$ | async">
+<div class="container" *ngIf="neededData$ | async" style="filter: contrast(1.5);">
   <!-- <header class="mt-3 d-flex p-3">
     <h2>Curriculums</h2>
     <button
@@ -24,7 +24,7 @@
   </header>
   <mat-tab-group>
     <mat-tab label="Existing">
-      <table class="table" *ngIf="curriculums">
+      <table *ngIf="curriculums" class="mat-table light-theme">
         <thead>
           <tr *ngIf="false">
             <th style="">
@@ -98,7 +98,7 @@
       </mat-paginator>
     </mat-tab>
     <mat-tab label="Revisions">
-      <table class="table" *ngIf="revisions">
+      <table *ngIf="revisions">
         <thead>
           <tr *ngIf="false">
             <th style="">
@@ -121,7 +121,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let data of revisions">
+          <tr *ngFor="let data of revisions" class="mat-table light-theme">
             <td scope="row">
               <div class="float-left d-flex p-3 flex-column">
                 <div class="d-flex align-items-center">
@@ -177,8 +177,8 @@
       >
       </mat-paginator>
     </mat-tab>
-    <mat-tab label="Pending">
-      <table class="table" *ngIf="curriculumPendings">
+    <mat-tab label="Pending" >
+      <table *ngIf="curriculumPendings">
         <thead>
           <tr *ngIf="false">
             <th style="">
@@ -201,7 +201,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let data of curriculumPendings">
+          <tr *ngFor="let data of curriculumPendings" class="mat-table light-theme">
             <td scope="row">
               <div class="float-left d-flex p-3 flex-column">
                 <div class="d-flex align-items-center">
