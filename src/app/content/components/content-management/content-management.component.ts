@@ -59,7 +59,6 @@ export class ContentManagementComponent {
       this.role = user.role      
       // console.log(contentObs);
       
-      console.log(!!Object.keys(contentObs).length);
       
     })
   )

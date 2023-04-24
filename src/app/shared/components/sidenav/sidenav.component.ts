@@ -46,7 +46,6 @@ export class SidenavComponent {
         this.title = content.title_text
         this.logo = content.logo_path
         this.isDarkMode = !!content.is_dark_mode_active
-        console.log(!!content.is_dark_mode_active);
       })
     ).subscribe()
   
