@@ -31,7 +31,7 @@ export class SubjectService {
   updateElective$ = new BehaviorSubject<any>(null)
   updateSubject(data:any, type:string, id:number){
     if(type == 'subject'){
-      return this.http.post(`${this.baseUrl}/subjects/update/${id}`, data).pipe(
+      return this.http.post<any>(`${this.baseUrl}/subjects/update/${id}`, data).pipe(
         tap(data => {
           this.updateSubject$.next(data)
         }),
@@ -39,7 +39,7 @@ export class SubjectService {
       )
     }
 
-    return this.http.post(`${this.baseUrl}/electives/update/${id}`, data).pipe(
+    return this.http.post<any>(`${this.baseUrl}/electives/update/${id}`, data).pipe(
       tap(data => {
         this.updateElective$.next(data)
       }),

@@ -9,6 +9,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { ViewProfileComponent } from 'src/app/shared/components/view-profile/view-profile.component';
+import { ToastService } from 'src/app/shared/services/toast.service';
 export interface UserData {
   age: number;
   name: string;
@@ -25,8 +26,8 @@ export class AccountListComponent2{
   constructor(private accountService: AccountService, 
               private dialog: MatDialog,
               private authService: AuthService,
+              private toast: ToastService
               ) {}
-
 
   user:User | any
   role:any = ''
@@ -70,6 +71,7 @@ export class AccountListComponent2{
         this.accountService.toggleStatus(user.id, data).subscribe(
           data => {
             this.users = this.users.map(use => use.id != user.id ? use : data)
+            this.toast.showToastSuccess('Update Successfuly', 'User status has been changed successfully')
           }
         )
       } else {

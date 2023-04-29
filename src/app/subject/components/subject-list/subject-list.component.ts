@@ -14,6 +14,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { ElectiveTrack } from 'src/app/core/models/elective';
 import { json } from 'express';
 import { AppError } from 'src/app/core/models/app-error';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 
 
@@ -26,7 +27,8 @@ export class SubjectListComponent {
   constructor(public dialog: MatDialog, 
               private subjectService: SubjectService, 
               public viewPdfDialog: MatDialog,
-              private authService: AuthService
+              private authService: AuthService,
+              private toast: ToastService
               ) {}
   openDialog(): void {
     this.dialog.open(SubjectAddDialogComponent);
@@ -119,6 +121,7 @@ export class SubjectListComponent {
   asd = this.subjectService.subjectAdd$.subscribe(
     subject => subject && this.subjects.push(subject)
   )
+
   electives:any[] = []
   neededData$ = combineLatest([
     this.subjectService.subjects$,
@@ -176,7 +179,6 @@ export class SubjectListComponent {
   }
 
   removeSubject(id:number){
-    
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
         title: 'Remove Subject',
@@ -189,15 +191,17 @@ export class SubjectListComponent {
         this.subjectService.removeSubject(id, {status: 'i'}).subscribe({
           next: data => {
             this.subjects = this.subjects.map(subj => subj.id != id ? subj : data)
+            this.toast.showToastSuccess('Removed Successfully', `${data.description} has removed`)
           },
           error: err => {
-
+            this.toast.showToastError('Removed failed', `error occured while removing the subject`)
           }
         })
       } else {
       }
     });
   }
+
   assignElective(id: number){
     const dialogRef = this.dialog.open(AssignElectiveSubject, {
       data: {
@@ -210,7 +214,7 @@ export class SubjectListComponent {
         this.electiveSubjects = this.electiveSubjects.map(sub => {
           return sub.id != result.id ? sub : {...sub, metadata: result.data}
         })
-        
+        this.toast.showToastSuccess('Assigned Successfully', `${result.description} has assigned`)
 
       } else {
       }
@@ -232,9 +236,10 @@ export class SubjectListComponent {
         this.subjectService.removeSubject(id, {status: 'a'}).subscribe({
           next: data => {
             this.subjects = this.subjects.map(subj => subj.id != id ? subj : data)
+            this.toast.showToastSuccess('Restore Successfully', `${data.description} successfully restore`)
           },
           error: err => {
-
+            this.toast.showToastSuccess('Restore Failed', `error occured while restoring the subject`)
           }
         })
       } else {  
@@ -348,7 +353,8 @@ export class ViewPdfClass {
   constructor(
     private sanitizer: DomSanitizer,
     public dialogRef: MatDialogRef<ViewPdfClass>,
-    @Inject(MAT_DIALOG_DATA) public data: { ref: string }
+    @Inject(MAT_DIALOG_DATA) public data: { ref: string },
+    private toast: ToastService
   ) {
     this.myUrl = this.sanitizer.bypassSecurityTrustResourceUrl('http://127.0.0.1:8000/api/subjectsGetSyllabus/' + data.ref);
   }
@@ -363,7 +369,8 @@ export class AssignElectiveSubject {
     public dialogRef: MatDialogRef<AssignElectiveSubject>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialog: MatDialog,
-    private subjectService: SubjectService
+    private subjectService: SubjectService,
+    private toast: ToastService
   ) {
 
   }
@@ -402,6 +409,7 @@ export class AssignElectiveSubject {
             
             this.subjectService.updateElectiveSubject(selected, track).subscribe(
               (data:any) => {
+                this.toast.showToastSuccess('Created Successfully', `${data.description} has been created succesfully`)
                 this.dialogRef.close({data: JSON.parse(data.metadata), id: track})
               }
             )
@@ -428,6 +436,7 @@ export class AssignElectiveSubject {
 
             this.subjectService.updateElectiveSubject(selected, track).subscribe(
               (data:any) => {
+                this.toast.showToastSuccess('Created Successfully', `${data.description} has been created succesfully`)
                 this.dialogRef.close({data: JSON.parse(data.metadata) , id: track})
               }
             )
@@ -450,7 +459,9 @@ export class AssignElectiveSubject {
 
 export class AddNewElectiveSubject{
   constructor(private subjectService: SubjectService, 
-    public dialogRef: MatDialogRef<AddNewElectiveSubject>){}
+    public dialogRef: MatDialogRef<AddNewElectiveSubject>,
+    private toast: ToastService
+    ){}
   error$ = new subject<string>();
   success$ = new subject<string>()
   submit(form: NgForm){
@@ -463,7 +474,8 @@ export class AddNewElectiveSubject{
       .subscribe({
         next: data => {
           this.error$.next('')
-          this.success$.next('Subject created Successfully')
+          // this.success$.next('Subject created Successfully')
+          this.toast.showToastSuccess('Created Successfully', `${data.description} has been created succesfully`)
         },
         error: (err:AppError) => {
           this.error$.next(err.message)
@@ -499,7 +511,8 @@ export class AddNewElectiveSubject{
 export class EditSubject{
   constructor(private subjectService: SubjectService, 
     public dialogRef: MatDialogRef<EditSubject>, 
-    @Inject(MAT_DIALOG_DATA) public data: any){}
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private toast: ToastService){}
   error$ = new subject<string>();
   success$ = new subject<string>()
 
@@ -512,13 +525,14 @@ export class EditSubject{
     this.subjectService.updateSubject(fd, this.type, this.subject.id) 
       .subscribe({
         next: data => {
+          this.dialogRef.close(true)
           this.error$.next('')
-          this.success$.next('Subject Updated Successfully')
-          console.log(data);
-          
+          // this.success$.next('Subject Updated Successfully')
+          this.toast.showToastSuccess('Update Successfully', `${data.description} has been updated succesfully`)
         },
         error: (err:AppError) => {
           this.error$.next(err.message)
+          // this.toast.showToastError('Updated Failed', `error occured while editing the subject`)
           this.success$.next('')
         }
       })

@@ -5,6 +5,7 @@ import {AppComponent} from 'src/app/app.component';
 import { Content } from 'src/app/core/models/content.model';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { ContentService } from 'src/app/core/services/content.service';
+import { ToastService } from 'src/app/shared/services/toast.service';
 @Component({
   selector: 'app-content-management',
   templateUrl: './content-management.component.html',
@@ -12,9 +13,10 @@ import { ContentService } from 'src/app/core/services/content.service';
 })
 export class ContentManagementComponent implements DoCheck, OnInit{
   constructor(private contentService: ContentService,
-              private authService: AuthService){}
+              private authService: AuthService,
+              private toast: ToastService
+              ){}
 
-  
   isEdit:boolean = false
   role:string = ''
   isLoading:boolean = true
@@ -82,12 +84,15 @@ export class ContentManagementComponent implements DoCheck, OnInit{
         next: data => {
           this.toggleIsEdit()      
           this.imageUrl = ''
-          this.error$.next('')
-          this.success$.next('Website Content update successfully')
+          // this.error$.next('')
+          // this.success$.next('Website Content update successfully')
+          this.toast.showToastSuccess('Update Successfuly', 'Website Content has been updated successfully')
+
           this.selectedFile = ''
         },
         error: err => {
-          this.error$.next(err.message)
+          // this.error$.next(err.message)
+          this.toast.showToastError('Update Failed', err.message)
           this.success$.next('')
         }
       })
@@ -97,12 +102,14 @@ export class ContentManagementComponent implements DoCheck, OnInit{
         next: data => {
           this.toggleIsEdit()
           this.imageUrl = ''
-          this.error$.next('')
-          this.success$.next('Website Content update successfully')
+          // this.error$.next('')
+          // this.success$.next('Website Content update successfully')
+          this.toast.showToastSuccess('Update Successfuly', 'Website Content has been updated successfully')
           this.selectedFile = ''
         },
         error: err => {
-          this.error$.next(err.message)
+          this.toast.showToastError('Update Failed', err.message)
+          // this.error$.next(err.message)
           this.success$.next('')
         }
       })

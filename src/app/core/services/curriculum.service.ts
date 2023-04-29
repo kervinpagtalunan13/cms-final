@@ -12,6 +12,7 @@ export class CurriculumService {
   private baseUrl = `http://127.0.0.1:8000/api/`;
   constructor(private http: HttpClient) { }
   // {{baseUrl}}curriculums
+  curriculums: Curriculum2[] = []
   curriculums$ = this.http.get<Curriculum2[]>(`${this.baseUrl}curriculums`).pipe(
     catchError(handleError)
   )
@@ -58,8 +59,7 @@ export class CurriculumService {
       catchError(handleError)
     )
   }
-
-
+  
   updateRevision(data:any){
     return this.http.patch(`${this.baseUrl}curriculums/updateRevision`, data).pipe(
       catchError(handleError)

@@ -10,6 +10,7 @@ import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog
 import { AuthService } from 'src/app/core/services/auth.service';
 import { User } from 'src/app/core/models/user';
 import { subjects } from '../year-dropdown/year-dropdown.component';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
   selector: 'app-curriculum-create-revision-container',
@@ -23,7 +24,8 @@ export class CurriculumCreateRevisionContainerComponent{
               private route: ActivatedRoute,
               private commentService: CommentService,
               private dialog: MatDialog,
-              private router: Router
+              private router: Router,
+              private toast: ToastService
     ){}
   
   errorMessage$ = new Subject<string>()
@@ -119,8 +121,11 @@ export class CurriculumCreateRevisionContainerComponent{
         this.curriculumService.createRevision(data).subscribe({
           next: (data:any) => {
             this.router.navigate(['/curriculums', 'revisions', data.curriculum.id])
+            this.toast.showToastSuccess('Created Successfully', `revision has been created`)
           },
-          error: err => console.log(err)
+          error: err => {
+            this.toast.showToastError('Creation Failed', `${err.message}`)
+          }
         })
       } else {
       }

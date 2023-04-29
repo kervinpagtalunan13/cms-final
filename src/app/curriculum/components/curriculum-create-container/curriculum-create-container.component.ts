@@ -7,6 +7,7 @@ import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog
 import { ActivatedRoute, ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
 import { EMPTY, Observable, catchError, combineLatest, tap } from 'rxjs';
 import { User } from 'src/app/core/models/user';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
   selector: 'app-curriculum-create-container',
@@ -18,7 +19,8 @@ export class CurriculumCreateContainerComponent{
               private authService: AuthService,
               private dialog: MatDialog,
               private router: Router,
-              private route: ActivatedRoute
+              private route: ActivatedRoute,
+              private toast: ToastService
               ){}
 
   
@@ -80,10 +82,11 @@ export class CurriculumCreateContainerComponent{
         
         this.curriculumService.createCurriculum(data).subscribe({
           next: curriculum => {
+            this.toast.showToastSuccess('Created Successfully', `curriclum has been created`)
             this.router.navigate(['/curriculums', curriculum.id])
           },
           error: err => {
-            console.log(err);
+            this.toast.showToastError('Creation Failed', `${err.message}`)
           }
         })
         
