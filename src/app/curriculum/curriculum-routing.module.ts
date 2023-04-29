@@ -3,23 +3,26 @@ import { RouterModule, Routes } from '@angular/router';
 import { CurriculumContainerComponent } from './components/curriculum-container/curriculum-container.component';
 import { CurriculumListComponent } from './components/curriculum-list/curriculum-list.component';
 import { CurriculumViewComponent } from './components/curriculum-view/curriculum-view.component';
-import { CurriculumCreateContainerComponent } from './components/curriculum-create-container/curriculum-create-container.component';
+import { CurriculumCreateContainerComponent, canDeactivateFn } from './components/curriculum-create-container/curriculum-create-container.component';
 import { CurriculumViewContainerComponent } from './components/curriculum-view-container/curriculum-view-container.component';
 import { CurriculumCreateRevisionContainerComponent } from './components/curriculum-create-revision-container/curriculum-create-revision-container.component';
 import { CurriculumViewRevisionContainerComponent } from './components/curriculum-view-revision-container/curriculum-view-revision-container.component';
 import { CurriculumEditContainerComponent } from './components/curriculum-edit-container/curriculum-edit-container.component';
 import { CurriculumEditRevisionContainerComponent } from './components/curriculum-edit-revision-container/curriculum-edit-revision-container.component';
+import { AuthGuardGuard } from '../core/guard/auth-guard.guard';
+import { AuthGuard } from '../core/guard/auth.guard';
 
 
 const routes: Routes = [
   { path: '', component: CurriculumContainerComponent,
+    canActivate:[AuthGuard],
     children: [
-      { path: '', component: CurriculumListComponent },
+      { path: '', component: CurriculumListComponent},
       // { path: 'create', component: CurriculumViewComponent },
       
 
       // creating curriculum -done
-      { path: 'create', component: CurriculumCreateContainerComponent, data: {type: 'create', action: 'curr'} },
+      { path: 'create', component: CurriculumCreateContainerComponent, data: {type: 'create', action: 'curr'}},
       // view curriculum -done
       { path: ':id', component: CurriculumViewContainerComponent, data: {type: 'view', action: 'curr'} },
       // editing the pending curriculum

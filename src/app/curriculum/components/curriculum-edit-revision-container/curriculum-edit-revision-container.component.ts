@@ -40,7 +40,9 @@ export class CurriculumEditRevisionContainerComponent implements OnInit{
   title = ''
   status = ''
   buttonTxt = 'edit curriculum'
-  
+  electiveSubjects:any[] = []
+  curriculumDepartment:any = ''
+
   neededData$ = combineLatest([
     this.route.data,
     this.authService.getCurrentUser(),
@@ -64,9 +66,12 @@ export class CurriculumEditRevisionContainerComponent implements OnInit{
 
       this.title = `CICT ${this.curriculum.curriculum.department.department_code} Curriculum version ${this.curriculum.version}`
 
-      this.subjects = JSON.parse(this.curriculum.metadata)
+      this.subjects = JSON.parse(this.curriculum.metadata).subjects
+      this.electiveSubjects = JSON.parse(this.curriculum.metadata).electiveSubjects
+      this.curriculumDepartment = this.curriculum.curriculum.department_id
+
       this.status = this.curriculum.status   
-      this.author = this.curriculum.user.profile.name
+      this.author = this.curriculum?.user?.profile?.name || 'name not set yet'
       this.isLoading = false
     }),
     catchError(err => {
@@ -80,7 +85,7 @@ export class CurriculumEditRevisionContainerComponent implements OnInit{
     return this.currUserId == this.userId
   }
 
-  submit(data: any){
+  submit(subjects: any){
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: {
         title: 'Update Revision',
@@ -90,8 +95,14 @@ export class CurriculumEditRevisionContainerComponent implements OnInit{
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        const body = {...data, id: this.curriculum.id}
-        this.curriculumService.updateRevision(body).subscribe({
+        const data = {...subjects, subjects: {
+          subjects: subjects.subjects,
+          electiveSubjects: subjects.electiveSubjects,
+          }, 
+        id: this.curriculum.id
+        }
+        // const body = {...data, id: this.curriculum.id}
+        this.curriculumService.updateRevision(data).subscribe({
           next: (response:any) => {
             this.router.navigate(['/curriculums', 'revisions', response.id])
           },

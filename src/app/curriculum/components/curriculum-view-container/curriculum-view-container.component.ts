@@ -38,6 +38,8 @@ export class CurriculumViewContainerComponent implements OnInit {
   isLoading:boolean = true
   error:boolean = false
   currentUser!:User
+  electiveSubjects: any[] = []
+  departmentId:any = ''
 
   needeedData$ = combineLatest([
     this.route.data,
@@ -59,16 +61,20 @@ export class CurriculumViewContainerComponent implements OnInit {
       this.userId = this.currentUser.id
       this.role = this.currentUser.role
       this.comments = comments.filter(comment => comment.curriculum_id == id)
-
+      this.departmentId = this.curriculum.department_id
       this.title = `CICT ${this.curriculum.department.department_code} Curriculum version ${this.curriculum.version}`
 
-      this.subjects = JSON.parse(this.curriculum.metadata)
+      this.subjects = JSON.parse(this.curriculum.metadata).subjects
+      this.electiveSubjects = JSON.parse(this.curriculum.metadata).electiveSubjects
+
       this.status = this.curriculum.status   
-      this.author = this.curriculum.user.profile.name
+      this.author = this.curriculum?.user?.profile?.name || 'not set his/her name yet'
       this.isLoading = false
 
     }),
     catchError(err => {
+      console.log(err);
+      
       this.error = true
       this.isLoading = false
       return EMPTY
@@ -89,6 +95,7 @@ export class CurriculumViewContainerComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+
         this.curriculumService.approveCurriculum(this.curriculum.id).subscribe({
           next: response => {
             this.status = 'a'

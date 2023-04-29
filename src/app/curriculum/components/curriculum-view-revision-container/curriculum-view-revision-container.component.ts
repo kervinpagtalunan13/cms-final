@@ -30,8 +30,9 @@ export class CurriculumViewRevisionContainerComponent implements OnInit{
   currUserId:any = 0
   userId:any = 0
   currentUser!:User
+  electiveSubjects:any[] = []
+  curriculumDepartment:any = ''
 
-  
   neededData$ = combineLatest([
     this.route.data,
     this.authService.getCurrentUser(),
@@ -56,9 +57,12 @@ export class CurriculumViewRevisionContainerComponent implements OnInit{
       this.title = `CICT ${this.curriculum.curriculum.department.department_code} Curriculum version ${this.curriculum.version}`
       
 
-      this.subjects = JSON.parse(this.curriculum.metadata)
+      this.subjects = JSON.parse(this.curriculum.metadata).subjects
+      this.electiveSubjects = JSON.parse(this.curriculum.metadata).electiveSubjects
+      this.curriculumDepartment = this.curriculum.curriculum.department_id
+
       this.status = this.curriculum.status   
-      this.author = this.curriculum.user.profile.name
+      this.author = this.curriculum?.user?.profile?.name || 'has not set his/her name yet'
       this.isLoading = false
 
     }),

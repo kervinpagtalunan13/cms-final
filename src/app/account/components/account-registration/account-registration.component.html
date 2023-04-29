@@ -1,143 +1,108 @@
-<div class="all">
-  <div class="container">
-    <h1 style="display: flex; flex-direction: column; align-items: center">
-      Register Account
-    </h1>
-    <!-- {{ form.value | json }}{{showDep | json}} -->
-    <form class="form" #form="ngForm" (ngSubmit)="submitForm(form)">
-      <!-- <div style="margin-top: 60px;">
-      <div style="height: 300px; width: 300px">
-        <img src="https://randomuser.me/api/portraits/men/75.jpg" />
-        <button
-          type="button"
-          mat-raised-button
-          (click)="fileInput.click()"
-          color="primary"
-        >
-          Choose File
-        </button>
-        <input
-          hidden
-          name="profilePic"
-          (change)="onFileSelected()"
-          #fileInput
-          type="file"
-          id="file"
-          ngModel
-        />
+  <div class="text-center p-4" style="color: #d05834">
+    <mat-icon>create</mat-icon>
+    <div>
+      <span class="h5">Register User</span>
+    </div>
+  </div>
+  <mat-card style="padding:40px; filter:contrast(1.1);">
+    <form #form="ngForm" (ngSubmit)="submitForm(form)" id="form">
+      <div>
+        <mat-form-field color="primary" style="margin-right: 20px">
+          <input
+            matInput
+            name="email"
+            placeholder="Email"
+            type="email"
+            ngModel
+          />
+        </mat-form-field>
       </div>
-    </div> -->
 
       <div>
-        <!-- <div>
-        <mat-form-field color="primary" style="margin-right: 30px">
-          <input matInput name="firstName" placeholder="First Name" ngModel />
-        </mat-form-field>
-
         <mat-form-field color="primary" style="margin-right: 20px">
-          <input matInput name="middleName" placeholder="Middle Name" ngModel />
+          <input name="password" matInput placeholder="password" ngModel />
         </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field color="primary" style="">
+          <input
+            name="password_confirmation"
+            matInput
+            placeholder="confirm password"
+            ngModel
+          />
+        </mat-form-field>
+      </div>
 
+      <div>
         <mat-form-field color="primary" style="margin-right: 20px">
-          <input matInput name="lastName" placeholder="Last Name" ngModel />
-        </mat-form-field>
-      </div> -->
-
-        <div>
-          <mat-form-field color="primary" style="margin-right: 20px">
-            <input
-              matInput
-              name="email"
-              placeholder="Email"
-              type="email"
-              ngModel
-            />
-          </mat-form-field>
-
-          <mat-form-field color="primary" style="margin-right: 20px">
-            <input name="password" matInput placeholder="password" ngModel />
-          </mat-form-field>
-
-          <mat-form-field color="primary" style="">
-            <input
-              name="password_confirmation"
-              matInput
-              placeholder="confirm password"
-              ngModel
-            />
-          </mat-form-field>
-
-          <!-- <mat-form-field color="primary" style="margin-right: 20px">
-            <input
-              matInput
-              name="contactNo"
-              placeholder="Contact Number"
-              ngModel
-            />
-          </mat-form-field> -->
-
-          <!-- <mat-form-field color="primary">
-            <mat-label>Choose a date</mat-label>
-            <input name="bday" matInput [matDatepicker]="picker" ngModel />
-            <mat-hint>MM/DD/YYYY</mat-hint>
-            <mat-datepicker-toggle
-              matSuffix
-              [for]="picker"
-            ></mat-datepicker-toggle>
-            <mat-datepicker #picker></mat-datepicker>
-          </mat-form-field> -->
-        </div>
-        <!-- <div>
-          <mat-form-field color="primary" style="width: 600px">
-            <input name="address" matInput placeholder="Full Address" ngModel />
-          </mat-form-field>
-        </div> -->
-        <div>
-          <mat-form-field color="primary" style="margin-right: 20px">
-            <mat-label>Role</mat-label>
-            <!-- [(ngModel)]="role" -->
-            <mat-select
-              name="role"
-              color="primary"
-              style="margin-right: 20px"
-              [(ngModel)]="role"
-              (selectionChange)="isShowDep()"
-            >
-              <mat-option value="chair"
-                >Committee Chair (Department Head)</mat-option
-              >
-              <mat-option value="faculty" default
-                >Committee Members (Program Chairs, Faculty)</mat-option
-              >
-              <mat-option value="reviewer"
-                >Stakeholders (Industry Partners, Review Committee)</mat-option
-              >
-            </mat-select>
-          </mat-form-field>
-
-          <mat-form-field
+          <mat-label>Role</mat-label>
+          <!-- [(ngModel)]="role" -->
+          <mat-select
+            name="role"
             color="primary"
             style="margin-right: 20px"
-            *ngIf="showDep"
+            [(ngModel)]="role"
+            (selectionChange)="isShowDep()"
           >
-            <mat-label>department</mat-label>
-            <mat-select
-              name="departmentId"
-              color="primary"
-              style="margin-right: 20px"
-              ngModel="1"
-            >
-              <mat-option value="1">BSIT</mat-option>
-              <mat-option value="2">BLIS</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-        <button mat-raised-button color="primary">Register</button>
+            <mat-option value="admin">Admin</mat-option>
+            <mat-option value="chair">Committee Chair</mat-option>
+            <mat-option value="faculty" default>Committee Members</mat-option>
+            <mat-option value="reviewer">Stakeholders</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field
+          color="primary"
+          style="margin-right: 20px"
+          *ngIf="showDep"
+        >
+          <mat-label>department</mat-label>
+          <mat-select
+            name="departmentId"
+            color="primary"
+            style="margin-right: 20px"
+            ngModel="1"
+          >
+            <mat-option value="1">BSIT</mat-option>
+            <mat-option value="2">BLIS</mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
     </form>
+    <app-notification
+      class="mt-3"
+      *ngIf="error$ | async as errorMessage"
+      [message]="errorMessage"
+      type="error"
+      (close)="closeAlert()"
+      style="width: 500px"
+    >
+    </app-notification>
+    <app-notification
+      class="mt-2"
+      *ngIf="success$ | async as message"
+      [message]="message"
+      type="success"
+      (close)="closeSuccessAlert()"
+      style="width: 500px"
+    ></app-notification>
 
-    <p class="text-danger" *ngIf="errorMessage$ | async as errorMessage">
-      {{ errorMessage }}
-    </p>
-  </div>
-</div>
+    <div
+      mat-dialog-actions
+      class="d-flex align-items-center justify-content-center"
+    >
+      <button
+        mat-flat-button
+        type="submit"
+        form="form"
+        color="primary"
+        class="text-light"
+        style="background-color: #d05834"
+      >
+        Submit
+      </button>
+      <button mat-button class="shadow-sm" style="filter:contrast(1.5);" (click)="onCancel()">Cancel</button>
+      <!-- <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button> -->
+    </div>
+  </mat-card>

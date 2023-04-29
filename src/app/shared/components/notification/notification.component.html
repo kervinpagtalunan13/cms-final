@@ -1,0 +1,17 @@
+<div class="alert alert-{{ getType[type] }} alert-dismissible fade show" role="alert">
+  <div class="d-flex align-items-center">
+    <mat-icon class="me-3">{{ logo[type] }}</mat-icon>
+    <div>
+      <div><strong>{{ type | titlecase}}</strong></div>
+      <div><span>{{ message }}</span></div>
+    </div>
+  </div>
+  <button
+    type="button"
+    class="btn-close"
+    aria-label="Close"
+    (click)="onClose()"
+  ></button>
+</div>
+
+

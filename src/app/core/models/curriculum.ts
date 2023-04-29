@@ -20,5 +20,6 @@ export interface Curriculum2 extends TimeStamp{
   metadata: string
   status: string
   user?: User,
-  department: Department
+  department: Department,
+  is_new: boolean
 }

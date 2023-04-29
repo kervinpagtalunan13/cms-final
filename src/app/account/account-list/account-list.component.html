@@ -1,65 +1,88 @@
 <div class="container">
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col" style="padding: 40px">
-            <span class="tit">Accounts</span>
-          </th>
-          <th style="padding: 20px">
-            <mat-form-field style="width: 200px" class="example-form-field">
-                <input
-                matInput
-                type="text"
-                [(ngModel)]="listFilter"
-                placeholder="Search..."
-              />
-              <!-- <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col" style="padding: 40px">
+          <span class="tit">Accounts</span>
+        </th>
+        <th style="padding: 20px">
+          <mat-form-field style="width: 200px" class="example-form-field">
+            <input
+              matInput
+              type="text"
+              [(ngModel)]="listFilter"
+              placeholder="Search..."
+            />
+            <!-- <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
                         <mat-icon>clear</mat-icon>
-                    </button> --> </mat-form-field><mat-icon>search</mat-icon>
-            <!-- <button mat-raised-button color="primary"></button> -->
-  
-            <button mat-raised-button color="primary" style="float: right">
-              Create New
-            </button>
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let user of displayedItems">
-          <td scope="row">
-            <div class="float-left d-flex p-3 flex-column">
-                
-              <div class="title d-inline-flex">
-                <img [src]='user?.profile?.profile_pic' width="70px" height="70px" style="border-radius: 50%;">
-                <div class="float-left d-flex p-3 flex-column" style="font-size: small;">
-                <span class="name">{{  user?.profile?.name  }} ({{ user?.role }})</span>
-                <span class="department">{{ user?.department?.description }} <span style="text-transform: uppercase; font-weight:bold;" *ngIf="user?.department?.department_code">({{user?.department?.department_code}})</span></span>
-              <span class="email">{{ user.email }}</span>
-            </div>
-              </div>
-              
-            </div>
-          </td>
-          <td>
-            <div class="floater">
-              <button
-                mat-raised-button
-                color="primary"
-                style="width: 100px; margin-right: 30px"
+                    </button> --> </mat-form-field
+          ><mat-icon>search</mat-icon>
+          <!-- <button mat-raised-button color="primary"></button> -->
+
+          <button mat-raised-button color="primary" style="float: right">
+            Create New
+          </button>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of displayedItems">
+        <td scope="row">
+          <div class="float-left d-flex p-3 flex-column">
+            <div class="title d-inline-flex">
+              <div
+                class="rounded-circle me-3"
+                style="
+                  width: 75px;
+                  height: 75px;
+                  background-position: center;
+                  background-repeat: no-repeat;
+                  background-size: cover;
+                  background-image: url('{{
+                  'http://127.0.0.1:8000/api/profiles/images/' +
+                    (user?.profile?.profile_pic || 'no-image.jpg')
+                }}');
+                "
+              ></div>
+              <div
+                class="float-left d-flex p-3 flex-column"
+                style="font-size: small"
               >
-                View
-              </button>
+                <span class="name"
+                  >{{ user?.profile?.name }} ({{ user?.role }})</span
+                >
+                <span class="department"
+                  >{{ user?.department?.description }}
+                  <span
+                    style="text-transform: uppercase; font-weight: bold"
+                    *ngIf="user?.department?.department_code"
+                    >({{ user?.department?.department_code }})</span
+                  ></span
+                >
+                <span class="email">{{ user.email }}</span>
+              </div>
             </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <mat-paginator
-      [length]="totalItems"
-      [pageSize]="pageSize"
-      [pageSizeOptions]="pageSizeOptions"
-      (page)="onPageChange($event)"
-    >
-    </mat-paginator>
-  </div>
-  
+          </div>
+        </td>
+        <td>
+          <div class="floater">
+            <button
+              mat-raised-button
+              color="primary"
+              style="width: 100px; margin-right: 30px"
+            >
+              View
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <mat-paginator
+    [length]="totalItems"
+    [pageSize]="pageSize"
+    [pageSizeOptions]="pageSizeOptions"
+    (page)="onPageChange($event)"
+  >
+  </mat-paginator>
+</div>

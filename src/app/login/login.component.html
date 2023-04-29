@@ -19,15 +19,18 @@
           id="loginForm"
         >
           <input
-            class="inputs"
+            class="form-control shadow-none"
+            style="width: 375px"
             placeholder="Email"
             name="email"
             [(ngModel)]="credentials.email"
           />
           <input
-            class="inputs mt-3"
+            class="form-control mt-3 shadow-none"
+            style="width: 375px"
             placeholder="Password"
             name="password"
+            type="password"
             [(ngModel)]="credentials.password"
           />
         </form>
@@ -38,14 +41,35 @@
         </div>
 
         <!--Login Btn-->
-        <button class="button mt-4" type="submit" form="loginForm">
+        <button
+          class="button btn mt-3"
+          color="primary"
+          type="submit"
+          form="loginForm"
+        >
           Login
         </button>
 
         <!--Forgot Password-->
-        <a href="" class="text-danger float-right" style="margin-left: 120px"
+        <!-- <a
+          href=""
+          class="text-danger float-right"
+          style="margin-left: 120px"
+          [routerLink]="['/forgot-password']"
           >Forgot Password?</a
+        > -->
+        <div class="text-center mt-2">
+          <span class="text-center pointer" (click)="openForgotPass()"></span>
+        </div>
+
+        <button
+          mat-button
+          class="text-danger float-right"
+          style="margin-left: 120px"
+          (click)="openForgotPass()"
         >
+          Forgot Password?
+        </button>
       </div>
     </div>
   </div>

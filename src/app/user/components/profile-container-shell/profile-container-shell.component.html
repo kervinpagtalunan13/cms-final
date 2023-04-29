@@ -1,38 +1,46 @@
 <app-sidenav>
-  <div class="container" *ngIf="currentUser$ | async as profile">
+  <div style="padding: 30px; height:100%; height:100vh;" *ngIf="neededData$ | async">
     <div class="row align-items-stretch py-4 px-2 gy-2">
       <div class="col-lg-4">
-        <div class="profile-container bg-white rounded p-3">
+        <div class="profile-container">
+          <mat-card style="padding: 30px; filter:contrast(150%);">
           <div class="image-wrapper text-center">
-            <img
-              src="{{
+            <div
+              class="rounded-circle mx-auto"
+              style="
+            width: 150px;
+            height: 150px;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-image: url('{{
                 'http://127.0.0.1:8000/api/profiles/images/' +
-                  (profile?.profile?.profile_pic || 'no-image.jpg')
-              }}"
-              style="width: 150px; height: 150px"
-              class="img-fluid rounded-circle"
-              alt="..."
-            />
+                  (user?.profile?.profile_pic || 'no-image.jpg')
+              }}');
+          "
+            ></div>
           </div>
           <div class="name-wrapper text-center">
-            <h2>{{ profile?.profile?.name || "name hasn't been set" }}</h2>
+            <h2>{{ user.profile?.name || "name hasn't been set" }}</h2>
           </div>
           <hr />
           <div class="text-center">
             <span
               >Status:
               <span class="text-success">
-                Selected as {{ profile.role | titlecase }}
-                <span *ngIf="profile?.department_id"
-                  >({{ profile?.department?.department_code }})</span
+                Selected as {{ user.role | titlecase }}
+                <span *ngIf="user?.department_id"
+                  >({{ user.department?.department_code }})</span
                 >
               </span>
             </span>
           </div>
+        </mat-card>
         </div>
       </div>
       <div class="col-lg-8">
-        <div class="profile-container bg-white rounded p-3">
+        <div class="profile-container">
+          <mat-card style="padding:30px; filter:contrast(150%);">
           <mat-tab-group>
             <mat-tab label="Profile">
               <form
@@ -128,7 +136,7 @@
               </div>
             </mat-tab>
             <mat-tab label="Change Profile Picture">
-              <div class="text-center mt-4" *ngIf="!profile.profile">
+              <div class="text-center mt-4" *ngIf="!user.profile">
                 <h3>
                   Your profile has not been set up yet. Set up your profile
                   first before adding a Profile picture.
@@ -139,7 +147,7 @@
                 (ngSubmit)="onUpload()"
                 enctype="multipart/form-data"
                 class="p-4"
-                *ngIf="profile.profile"
+                *ngIf="user.profile"
               >
                 <div
                   class="alert alert-success"
@@ -262,8 +270,13 @@
               </div>
             </mat-tab>
           </mat-tab-group>
+        </mat-card>
         </div>
       </div>
     </div>
   </div>
+  <div class="d-flex" *ngIf="isLoading">
+    <app-spinner class="mx-auto"></app-spinner>
+  </div>
+  <app-reload-page *ngIf="error && !isLoading"></app-reload-page>
 </app-sidenav>

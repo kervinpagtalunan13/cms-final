@@ -1,0 +1,65 @@
+<div
+  class="bg-light border shadow rounded overflow-hidden"
+  style="width: 500px"
+>
+  <div class="text-center p-4" style="color: #d05834">
+    <mat-icon>create</mat-icon>
+    <div>
+      <span class="h5">Add Elective</span>
+    </div>
+  </div>
+  <div class="p-4" style="background-color: #e4e4e7">
+    <div mat-dialog-content>
+      <form #form="ngForm" id="form" (ngSubmit)="submit(form)">
+        <input
+          class="form-control mb-2"
+          placeholder="Description"
+          name="description"
+          ngModel
+        />
+        <div class="my-2">
+          <label for="formFile" class="form-label">Syllabus </label>
+          <input
+            class="form-control"
+            type="file"
+            id="formFile"
+            (change)="onFileSelected($event)"
+          />
+        </div>
+      </form>
+
+      <app-notification
+        class="mt-3"
+        *ngIf="error$ | async as errorMessage"
+        [message]="errorMessage"
+        type="error"
+        (close)="closeAlert()"
+      >
+      </app-notification>
+      <app-notification
+        class="mt-2"
+        *ngIf="success$ | async as message"
+        [message]="message"
+        type="success"
+        (close)="closeSuccessAlert()"
+      >
+      </app-notification>
+    </div>
+    <div
+      mat-dialog-actions
+      class="d-flex align-items-center justify-content-center"
+    >
+      <button
+        mat-flat-button
+        type="submit"
+        form="form"
+        color="primary"
+        class="text-light"
+        style="background-color: #d05834"
+      >
+        Submit
+      </button>
+      <button mat-button class="shadow-sm" (click)="onCancel()">Cancel</button>
+    </div>
+  </div>
+</div>

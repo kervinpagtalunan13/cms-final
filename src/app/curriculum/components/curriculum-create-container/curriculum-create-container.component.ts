@@ -4,8 +4,8 @@ import { CurriculumService } from 'src/app/core/services/curriculum.service';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
-import { ActivatedRoute, Router } from '@angular/router';
-import { EMPTY, catchError, combineLatest, tap } from 'rxjs';
+import { ActivatedRoute, ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
+import { EMPTY, Observable, catchError, combineLatest, tap } from 'rxjs';
 import { User } from 'src/app/core/models/user';
 
 @Component({
@@ -35,7 +35,7 @@ export class CurriculumCreateContainerComponent{
       this.type = data['type']
       this.action = data['action']
       this.role = user.role
-      this.userDeptId = String(user.department_id)
+      this.userDeptId = user.department_id
       this.currentUser = user
       this.isLoading = false
     }),
@@ -73,7 +73,12 @@ export class CurriculumCreateContainerComponent{
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.curriculumService.createCurriculum(subj).subscribe({
+        const data = {...subj, subjects: {
+          subjects: subj.subjects,
+          electiveSubjects: subj.electiveSubjects
+        }}
+        
+        this.curriculumService.createCurriculum(data).subscribe({
           next: curriculum => {
             this.router.navigate(['/curriculums', curriculum.id])
           },
@@ -81,9 +86,18 @@ export class CurriculumCreateContainerComponent{
             console.log(err);
           }
         })
+        
       } else {
       }
     });
 
   }
+
+  canDeactivate(){
+    return confirm('Are you sure you want to discard your changes?');
+  }
+}
+
+export function canDeactivateFn(component: CurriculumCreateContainerComponent, currentRoute: ActivatedRouteSnapshot, currentState: RouterStateSnapshot, nextState?: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+  return component.canDeactivate();
 }

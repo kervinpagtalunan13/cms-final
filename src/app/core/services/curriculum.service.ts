@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError } from 'rxjs';
+import { catchError, map } from 'rxjs';
 import { handleError } from '../errorHandling/errorHandler';
 import { Curriculum2 } from '../models/curriculum';
 
@@ -17,6 +17,22 @@ export class CurriculumService {
   )
 
   revisions$ = this.http.get<any[]>(`${this.baseUrl}curriculums/revisions`).pipe(
+    catchError(handleError)
+  )
+
+  electiveSubjects$ = this.http.get<any[]>(`${this.baseUrl}electiveSubjects`).pipe(
+    map(electiveSubjs => electiveSubjs.map(electiveSubj => {
+      return {
+        track: electiveSubj.track, 
+        description: [
+          electiveSubj.elective_1,
+          electiveSubj.elective_2,
+          electiveSubj.elective_3,
+          electiveSubj.elective_4,
+          electiveSubj.elective_5,
+        ]
+      }
+    })),
     catchError(handleError)
   )
 

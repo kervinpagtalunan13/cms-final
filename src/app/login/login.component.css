@@ -6,7 +6,8 @@
     min-height: 100vh;
 }
 .container{
-    padding-left: 50px;
+    /* padding-left: 50px; */
+
     background-color: white;
     width: 500px;
     height: 100vh;
@@ -24,18 +25,18 @@ span{
 }
 .inputs{
     width: 335px;
-    padding: 5px;
-    opacity: 50%;
+    /* padding: 5px;
+    opacity: 50%; */
 }
 .logos{
     width: 100px;
 }
 .button{
     border-width: 0px;
-    width: 100px;
-    height: 50px;
-    border-radius: 1.2rem;
-    background-color: #D05834;
+    width: 100%;
+    /* height: 50px; */
+    /* border-radius: 1.2rem; */
+    background-color: #D05834 !important;
     color: white;
     font-family: 'century gothic';
     font-weight: bold;

@@ -14,6 +14,7 @@
       mat-raised-button
       color="primary"
       style="float: right; right: 230px"
+      (click)="convertToPDF()"
     >
       Print <mat-icon>printer</mat-icon>
     </button>
@@ -24,16 +25,18 @@
   <!-- Input table para sa edit at add ends here-->
 
   <div class="bottom">
-    <mat-accordion>
+    <mat-accordion color="primary">
       <mat-expansion-panel
         (opened)="panelOpenState = true"
         (closed)="panelOpenState = false"
         *ngFor="let subjects of subject; let x = index"
       >
+
         <mat-expansion-panel-header style="background-color: #f1d7d6">
           <mat-panel-title class="panel-text"
             >{{ assignYearX(x) }} Year</mat-panel-title
           >
+
         </mat-expansion-panel-header>
         <div class="firstSem">
           <button
