@@ -4,24 +4,35 @@
     message="once Admin have added User, you'll see it here"
     *ngIf="!users.length"
   ></app-empty-state>
+  <header class="d-flex justify-content-between align-items-center">
+    <span class="h3">Accounts</span>
+    <button
+      mat-raised-button
+      color="primary"
+      style="float: right"
+      (click)="openDialog()"
+    >
+      Create New
+    </button>
+  </header>
+  <mat-form-field style="width: 200px" class="example-form-field">
+    <input
+      matInput
+      type="text"
+      [(ngModel)]="listFilter"
+      placeholder="Search..."
+    />
+    <!-- <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+                <mat-icon>clear</mat-icon>
+            </button> --> </mat-form-field
+  ><mat-icon>search</mat-icon>
   <table class="table">
-    <thead>
+    <thead *ngIf="false">
       <tr>
         <th scope="col" style="padding: 40px">
           <span class="tit">Accounts</span>
         </th>
         <th style="padding: 20px">
-          <mat-form-field style="width: 200px" class="example-form-field">
-            <input
-              matInput
-              type="text"
-              [(ngModel)]="listFilter"
-              placeholder="Search..."
-            />
-            <!-- <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
-                        <mat-icon>clear</mat-icon>
-                    </button> --> </mat-form-field
-          ><mat-icon>search</mat-icon>
           <!-- <button mat-raised-button color="primary"></button> -->
 
           <!-- [routerLink]="['register']" -->

@@ -5,6 +5,8 @@ import { AppError } from 'src/app/core/models/app-error';
 import { User } from 'src/app/core/models/user';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { UserService } from 'src/app/core/services/user.service';
+import { ToastService } from 'src/app/shared/services/toast.service';
+import iziToast from 'izitoast';
 
 @Component({
   selector: 'app-profile-container-shell',
@@ -61,7 +63,8 @@ export class ProfileContainerShellComponent {
   profileForm: FormGroup
   constructor(private authService: AuthService, 
               private fb: FormBuilder,
-              private userService: UserService
+              private userService: UserService,
+              private toast: ToastService
               ){
     this.profileForm = fb.group({
     name: [{ value: '', disabled: true }, Validators.required],
@@ -86,12 +89,15 @@ export class ProfileContainerShellComponent {
           this.authService.updateProfile(data)
           // console.log(data);
           this.clickEditProfile()
-          this.messageProfileSuccess$.next('Profile change successfuly')
-          this.messageProfileError$.next('')
+          // this.messageProfileSuccess$.next('Profile change successfuly')
+          // this.messageProfileError$.next('')
+ 
+          this.toast.showToastSuccess('Update successfuly', 'Your profile has been updated successfully')
         },
         error: err => {
-          this.messageProfileError$.next(err.message)
-          this.messageProfileSuccess$.next('')
+          // this.messageProfileError$.next(err.message)
+          // this.messageProfileSuccess$.next('')
+          this.toast.showToastError('Update Failed', 'Something occured while updating your profile')
         }
       }
     )
@@ -119,13 +125,15 @@ export class ProfileContainerShellComponent {
   changePass(form: NgForm){
     this.userService.changePass(form.value).subscribe({
       next: data => {
-        this.messagePassSuccess$.next('Password change successfuly')
-        this.messagePassError$.next('')
+        // this.messagePassSuccess$.next('Password change successfuly')
+        // this.messagePassError$.next('')
+        this.toast.showToastSuccess('Update successfuly', 'Your password has been updated successfully')
         this.clickEditPass()
       },
       error: err => {
-        this.messagePassError$.next(err.message)
-        this.messagePassSuccess$.next('')
+        this.toast.showToastError('Update Failed', err.message)
+        // this.messagePassError$.next(err.message)
+        // this.messagePassSuccess$.next('')
       }
     })
   }
@@ -147,14 +155,14 @@ export class ProfileContainerShellComponent {
     this.userService.onUpload(formData).subscribe({
       next: (response:any) => {
         this.authService.updateProfile(response.profile)
-        this.messagePicError$.next('')
-        this.messagePicSuccess$.next('Profile picture change successfully')
+        // this.messagePicError$.next('')
+        // this.messagePicSuccess$.next('Profile picture change successfully')
+        this.toast.showToastSuccess('Update successfuly', 'Your profile picture has been updated successfully')
       },
       error: (err: AppError) => {
-        console.log(err);
-        
-        this.messagePicError$.next(err.message)
-        this.messagePicSuccess$.next('')
+        this.toast.showToastError('Update Failed', err.message)
+        // this.messagePicError$.next(err.message)
+        // this.messagePicSuccess$.next('')
       }
     })
   }

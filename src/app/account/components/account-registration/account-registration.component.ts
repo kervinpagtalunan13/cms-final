@@ -6,6 +6,7 @@ import { AppError } from 'src/app/core/models/app-error';
 import { AccountService } from 'src/app/core/services/account.service';
 import { MatDialogRef } from '@angular/material/dialog';
 import { SubjectAddDialogComponent } from 'src/app/subject/components/subject-add-dialog/subject-add-dialog.component';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 export interface registerForm{
   // firstName: string,
@@ -26,7 +27,8 @@ export interface registerForm{
 
 export class AccountRegistrationComponent {
   constructor(private accountService: AccountService, 
-              public dialogRef: MatDialogRef<SubjectAddDialogComponent>
+              public dialogRef: MatDialogRef<SubjectAddDialogComponent>,
+              private toast: ToastService
     ){}
   srcResult: any;
   showDep=false;
@@ -79,11 +81,12 @@ export class AccountRegistrationComponent {
     this.accountService.register(form.value).subscribe({
       next: data => {
         this.error$.next('')
-        this.success$.next('Subject created Successfully')
+        // this.success$.next('Subject created Successfully')
+        this.toast.showToastSuccess('Create Successfuly', 'User has been created successfully')
       },
       error: (err: AppError) => {
         this.error$.next(err.message)
-        this.success$.next('')
+        this.toast.showToastError('Creation Failed', err.message)
       }
     })
   }

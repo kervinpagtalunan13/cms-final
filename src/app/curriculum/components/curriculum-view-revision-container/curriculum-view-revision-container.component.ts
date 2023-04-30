@@ -9,6 +9,7 @@ import { Comment } from 'src/app/core/models/comment';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { User } from 'src/app/core/models/user';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 
 @Component({
@@ -22,7 +23,8 @@ export class CurriculumViewRevisionContainerComponent implements OnInit{
               private authService: AuthService,
               private route: ActivatedRoute,
               private dialog: MatDialog,
-              private router: Router
+              private router: Router,
+              private toast: ToastService
   ){}
   
   isLoading:boolean = true
@@ -120,8 +122,10 @@ export class CurriculumViewRevisionContainerComponent implements OnInit{
           next: response => {
             this.curriculum.status = 'a'
             this.status = 'a'
+            this.toast.showToastSuccess('Approved Successfully', `revision has been approved`)
           },
           error: err => {
+            this.toast.showToastError('Approved Failed', `Something occured while approving the revision`)
             
           }
         })

@@ -4,11 +4,14 @@ import { LoginComponent } from './login/login.component';
 import { AuthGuardGuard } from './core/guard/auth-guard.guard';
 import { ForgotPasswordComponent } from './shared/components/forgot-password/forgot-password.component';
 import { LoginGuard } from './core/guard/login.guard';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 const routes: Routes = [
+  { path: '', component: LandingPageComponent, 
+  },
   { path: 'login', component: LoginComponent, 
   canActivate:[LoginGuard]
-},
+  },
   { path: 'curriculums', loadChildren: () => import('./curriculum/curriculum.module').then(m => m.CurriculumModule)},
   { path: 'accounts', loadChildren: () => import('./account/account.module').then(m => m.AccountModule)},
   { path: 'subjects', loadChildren: () => import('./subject/subject.module').then(m => m.SubjectModule)},

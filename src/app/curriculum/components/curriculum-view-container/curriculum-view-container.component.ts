@@ -9,6 +9,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { CommentService } from 'src/app/core/services/comment.service';
 import { CurriculumService } from 'src/app/core/services/curriculum.service';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
   selector: 'app-curriculum-view-container',
@@ -21,7 +22,8 @@ export class CurriculumViewContainerComponent implements OnInit {
               private commentService: CommentService,
               private route: ActivatedRoute,
               private router: Router,
-              private dialog: MatDialog
+              private dialog: MatDialog,
+              private toast: ToastService
     ){}
   currUserId:any = 0
   userId:any = 0
@@ -100,9 +102,11 @@ export class CurriculumViewContainerComponent implements OnInit {
           next: response => {
             this.status = 'a'
             this.curriculum.status = 'a'
+            this.toast.showToastSuccess('Approved Successfully', `curriculum has been approved`)
           },
           error: err => {
-            console.log(err);
+            this.toast.showToastError('Approved Failed', `Something occured while approving the curriculum`)
+
           }
         })
       } else {

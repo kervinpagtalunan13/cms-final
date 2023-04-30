@@ -60,12 +60,31 @@
                 >
                   {{ message }}
                 </div>
-                <mat-form-field class="example-full-width">
+                <div class="form-floating mb-3">
+                  <input
+                    type="email"
+                    class="form-control shadow-none"
+                    id="name"
+                    placeholder="name@example.com"
+                    formControlName="name"
+                  />
+                  <label for="name">Full Name</label>
+                </div>
+                <!-- <mat-form-field class="example-full-width">
                   <mat-label>Name</mat-label>
                   <input matInput placeholder="Name" formControlName="name" />
-                </mat-form-field>
+                </mat-form-field> -->
                 <div>
-                  <mat-form-field class="example-full-width">
+                  <div class="form-floating mb-3">
+                    <input
+                      type="date"
+                      name="birthDate"
+                      class="form-control"
+                      formControlName="birthDate"
+                    />
+                    <label for="birthDate">Birth Date</label>
+                  </div>
+                  <!-- <mat-form-field class="example-full-width">
                     <mat-label>Birth Date</mat-label>
                     <input
                       matInput
@@ -73,10 +92,20 @@
                       name="birthDate"
                       formControlName="birthDate"
                     />
-                  </mat-form-field>
+                  </mat-form-field> -->
                 </div>
                 <div>
-                  <mat-form-field class="example-full-width">
+                  <div class="form-floating mb-3">
+                    <input
+                      type="text"
+                      class="form-control shadow-none"
+                      placeholder="Address"
+                      name="address"
+                      formControlName="address"
+                    />
+                    <label for="address">Full Address</label>
+                  </div>
+                  <!-- <mat-form-field class="example-full-width">
                     <mat-label>Address</mat-label>
                     <input
                       matInput
@@ -84,10 +113,20 @@
                       name="name"
                       formControlName="address"
                     />
-                  </mat-form-field>
+                  </mat-form-field> -->
                 </div>
                 <div>
-                  <mat-form-field class="example-full-width">
+                  <div class="form-floating mb-3">
+                    <input
+                      type="text"
+                      class="form-control shadow-none"
+                      placeholder="Phone Number"
+                      name="phoneNo"
+                      formControlName="phoneNo"
+                    />
+                    <label for="phoneNo">Phone Number</label>
+                  </div>
+                  <!-- <mat-form-field class="example-full-width">
                     <mat-label>Phone Number</mat-label>
                     <input
                       matInput
@@ -95,7 +134,7 @@
                       name="name"
                       formControlName="phoneNo"
                     />
-                  </mat-form-field>
+                  </mat-form-field> -->
                 </div>
               </form>
               <div class="buttons">
@@ -194,7 +233,19 @@
                 >
                   {{ message }}
                 </div>
-                <mat-form-field class="example-full-width">
+
+                <div class="form-floating mb-3">
+                  <input
+                    type="password"
+                    placeholder="Current Password"
+                    class="form-control shadow-none"
+                    name="currentPassword"
+                    [disabled]="disableChangePass"
+                    [(ngModel)]="passwords.currentPassword"
+                  />
+                  <label for="currentPassword">Current Password</label>
+                </div>
+                <!-- <mat-form-field class="example-full-width">
                   <mat-label>Current Password</mat-label>
                   <input
                     matInput
@@ -204,9 +255,21 @@
                     [disabled]="disableChangePass"
                     [(ngModel)]="passwords.currentPassword"
                   />
-                </mat-form-field>
+                </mat-form-field> -->
                 <div>
-                  <mat-form-field class="example-full-width">
+                  <div class="form-floating mb-3">
+                    <input
+                      type="password"
+                      placeholder="New Password"
+                      class="form-control shadow-none"
+                      type="password"
+                      name="password"
+                      [disabled]="disableChangePass"
+                      [(ngModel)]="passwords.password"
+                    />
+                    <label for="password">New Password</label>
+                  </div>
+                  <!-- <mat-form-field class="example-full-width">
                     <mat-label>New Password</mat-label>
                     <input
                       matInput
@@ -216,10 +279,24 @@
                       [disabled]="disableChangePass"
                       [(ngModel)]="passwords.password"
                     />
-                  </mat-form-field>
+                  </mat-form-field> -->
                 </div>
                 <div>
-                  <mat-form-field class="example-full-width">
+                  <div class="form-floating mb-3">
+                    <input
+                      type="password"
+                      placeholder="Confirm new Passowrd"
+                      type="password"
+                      class="form-control shadow-none"
+                      name="password_confirmation"
+                      [disabled]="disableChangePass"
+                      [(ngModel)]="passwords.password_confirmation"
+                    />
+                    <label for="password_confirmation"
+                      >Confirm New Password</label
+                    >
+                  </div>
+                  <!-- <mat-form-field class="example-full-width">
                     <mat-label>Confirm new Passowrd</mat-label>
                     <input
                       matInput
@@ -229,7 +306,7 @@
                       [disabled]="disableChangePass"
                       [(ngModel)]="passwords.password_confirmation"
                     />
-                  </mat-form-field>
+                  </mat-form-field> -->
                 </div>
               </form>
               <div class="buttons">

@@ -5,6 +5,7 @@ import { AppError } from 'src/app/core/models/app-error';
 import { Department } from 'src/app/core/models/department';
 import { DepartmentService } from 'src/app/core/services/department.service';
 import { SubjectService } from 'src/app/core/services/subject.service';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
   selector: 'app-subject-add-dialog',
@@ -14,7 +15,8 @@ import { SubjectService } from 'src/app/core/services/subject.service';
 export class SubjectAddDialogComponent {
   constructor(public dialogRef: MatDialogRef<SubjectAddDialogComponent>, 
               private subjectService: SubjectService,
-              private departmentService: DepartmentService
+              private departmentService: DepartmentService,
+              private toast: ToastService
     ) {}
     
   department:number = 1
@@ -76,7 +78,9 @@ export class SubjectAddDialogComponent {
       .subscribe({
         next: data => {
           this.error$.next('')
-          this.success$.next('Subject created Successfully')
+          this.toast.showToastSuccess('Created Successfully', `${data.description} has been created succesfully`)
+          this.dialogRef.close(true)
+          // this.success$.next('Subject created Successfully')
         },
         error: (err:AppError) => {
           this.error$.next(err.message)

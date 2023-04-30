@@ -9,6 +9,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { CommentService } from 'src/app/core/services/comment.service';
 import { CurriculumService } from 'src/app/core/services/curriculum.service';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
   selector: 'app-curriculum-edit-revision-container',
@@ -21,7 +22,8 @@ export class CurriculumEditRevisionContainerComponent implements OnInit{
               private authService: AuthService,
               private router: Router,
               private commentService: CommentService,
-              private dialog: MatDialog
+              private dialog: MatDialog,
+              private toast: ToastService
           ){}
 
   userId:any = 0
@@ -105,9 +107,10 @@ export class CurriculumEditRevisionContainerComponent implements OnInit{
         this.curriculumService.updateRevision(data).subscribe({
           next: (response:any) => {
             this.router.navigate(['/curriculums', 'revisions', response.id])
+            this.toast.showToastSuccess('Edited Successfully', `revision has been edited`)
           },
           error: err => {
-
+            this.toast.showToastError('Creation Failed', `${err.message}`)
           }
         })
 

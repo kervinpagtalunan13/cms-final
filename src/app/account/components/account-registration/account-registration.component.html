@@ -10,7 +10,7 @@
   </div>
   <div class="p-4" style="background-color: #e4e4e7">
     <form class="form" #form="ngForm" (ngSubmit)="submitForm(form)" id="form">
-      <div>
+      <!-- <div>
         <mat-form-field color="primary" style="margin-right: 20px">
           <input
             matInput
@@ -20,14 +20,43 @@
             ngModel
           />
         </mat-form-field>
+      </div> -->
+      <div class="form-floating mb-3">
+        <input
+          name="email"
+          class="form-control shadow-none"
+          placeholder="Email"
+          type="email"
+          ngModel
+        />
+        <label for="email">Email</label>
       </div>
 
-      <div>
+      <div class="form-floating mb-3">
+        <input
+          name="password"
+          class="form-control shadow-none"
+          placeholder="Password"
+          type="text"
+          ngModel
+        />
+        <label for="Password">Password</label>
+      </div>
+      <!-- <div>
         <mat-form-field color="primary" style="margin-right: 20px">
           <input name="password" matInput placeholder="password" ngModel />
         </mat-form-field>
+      </div> -->
+      <div class="form-floating mb-3">
+        <input
+          class="form-control shadow-none"
+          name="password_confirmation"
+          placeholder="Confirm Password"
+          ngModel
+        />
+        <label for="Password">Confirm Password</label>
       </div>
-      <div>
+      <!-- <div>
         <mat-form-field color="primary" style="">
           <input
             name="password_confirmation"
@@ -36,15 +65,29 @@
             ngModel
           />
         </mat-form-field>
-      </div>
+      </div> -->
 
       <div>
-        <mat-form-field color="primary" style="margin-right: 20px">
-          <mat-label>Role</mat-label>
-          <!-- [(ngModel)]="role" -->
-          <mat-select
+        <div class="form-floating mb-3">
+          <select
+            class="form-select shadow-none"
             name="role"
+            style="margin-right: 20px"
+            [(ngModel)]="role"
+            (change)="isShowDep()"
+          >
+            <option value="admin" selected>Admin</option>
+            <option value="chair">Committee Chair</option>
+            <option value="faculty">Committee Members</option>
+            <option value="reviewer">Stakeholders</option>
+          </select>
+          <label for="role">Role</label>
+        </div>
+        <!-- <mat-form-field color="primary" style="margin-right: 20px">
+          <mat-label>Role</mat-label>
+          <mat-select
             color="primary bg-light"
+            name="role"
             style="margin-right: 20px"
             [(ngModel)]="role"
             (selectionChange)="isShowDep()"
@@ -54,9 +97,21 @@
             <mat-option value="faculty" default>Committee Members</mat-option>
             <mat-option value="reviewer">Stakeholders</mat-option>
           </mat-select>
-        </mat-form-field>
-
-        <mat-form-field
+        </mat-form-field> -->
+        <div class="form-floating mb-3" *ngIf="showDep">
+          <select
+            class="form-select shadow-none"
+            name="departmentId"
+            color="primary"
+            style="margin-right: 20px"
+            ngModel="1"
+          >
+            <option value="1">BSIT</option>
+            <option value="2">BLIS</option>
+          </select>
+          <label for="departmentId">Department</label>
+        </div>
+        <!-- <mat-form-field
           color="primary"
           style="margin-right: 20px"
           *ngIf="showDep"
@@ -71,7 +126,7 @@
             <mat-option value="1">BSIT</mat-option>
             <mat-option value="2">BLIS</mat-option>
           </mat-select>
-        </mat-form-field>
+        </mat-form-field> -->
       </div>
     </form>
     <app-notification
@@ -107,7 +162,6 @@
         Submit
       </button>
       <button mat-button class="shadow-sm" (click)="onCancel()">Cancel</button>
-      <!-- <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button> -->
     </div>
   </div>
 </div>
