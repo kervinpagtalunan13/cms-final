@@ -1,6 +1,6 @@
 <app-sidenav>
-  <div style="padding: 30px; height:100%; height:100vh;">
-  <mat-card
+  <div
+    class="container"
     style="padding: 30px"
     *ngIf="neededData$ | async as data"
   >
@@ -10,29 +10,29 @@
     <div class="row gap-4">
       <div class="col-sm">
         <div class="row gap-2">
-          <mat-card class="col-sm" style="filter: contrast(150%);">
+          <mat-card class="col-sm">
             <mat-card-subtitle>Pending Curriculums</mat-card-subtitle>
             <mat-card-title>{{ data.pendingCurriculums }}</mat-card-title>
           </mat-card>
-          <mat-card class="col-sm" style="filter: contrast(150%);">
+          <mat-card class="col-sm">
             <mat-card-subtitle>Pending Revisions</mat-card-subtitle>
             <mat-card-title>{{ data.pendingRevisions }}</mat-card-title>
           </mat-card>
         </div>
 
         <div class="row gap-2">
-          <mat-card class="col-sm" style="filter: contrast(150%);">
+          <mat-card class="col-sm">
             <mat-card-subtitle>Active Curriculums</mat-card-subtitle>
             <mat-card-title>{{ data.activeCurriculums }}</mat-card-title>
           </mat-card>
-          <mat-card class="col-sm" style="filter: contrast(150%);">
+          <mat-card class="col-sm">
             <mat-card-subtitle>Approve Revisions</mat-card-subtitle>
             <mat-card-title>{{ data.approvedRevisions }}</mat-card-title>
           </mat-card>
         </div>
 
         <div class="row">
-          <mat-card class="col-sm" style="filter: contrast(150%);">
+          <mat-card class="col-sm">
             <mat-card-subtitle class="m-0 p-0"
               >Latest Submitted Revision</mat-card-subtitle
             >
@@ -86,7 +86,7 @@
               >Latest Submitted Revision</mat-card-subtitle
             >
             <mat-card-content>
-              <div style="font-size: 20px; font-style:bold;">
+              <div class="fw-bold text-dark fs-6">
                 <span>
                   CICT
                   {{
@@ -122,6 +122,7 @@
           </mat-card>
         </div>
       </div>
+
       <div class="col-sm">
         <app-comment
           *ngIf="data.latestComments.length"
@@ -135,7 +136,7 @@
     </div>
 
     <div class="row gap-2" *ngIf="false">
-      <mat-card class="col-sm" style="filter: contrast(150%);">
+      <mat-card class="col-sm">
         <mat-card-subtitle class="m-0 p-0"
           >Latest Submitted Revision</mat-card-subtitle
         >
@@ -172,7 +173,7 @@
           </div>
         </mat-card-content>
       </mat-card>
-      <!-- <div class="user col-sm" style="margin-right: 10px">
+      <div class="user col-sm" style="margin-right: 10px">
         <header>Latest Approved Revision</header>
         <div>
           <header>
@@ -184,7 +185,7 @@
           <h5>Juan Dela Cruz</h5>
           <h5>04-03-00</h5>
         </div>
-      </div> -->
+      </div>
     </div>
     <div class="row gap-4">
       <mat-card class="col-md-6">
@@ -192,6 +193,7 @@
           <div class="pieChart" [chart]="pieChart"></div>
         </mat-card-content>
       </mat-card>
+
       <mat-card class="col-md-5">
         <mat-card-content>
           <div class="pieChart" [chart]="pieChartSubject"></div>
@@ -199,6 +201,7 @@
       </mat-card>
     </div>
   </div>
+
   <app-spinner *ngIf="isLoading"></app-spinner>
   <app-reload-page *ngIf="!isLoading && error"></app-reload-page>
 </app-sidenav>

@@ -1,4 +1,3 @@
-
 <div class="container p-4" *ngIf="(neededData$ | async) && canView()">
   <app-empty-state
     name="Users"
@@ -38,7 +37,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let user of displayedItems" style="border-bottom: 1px solid rgb(140, 140, 140);">
+      <tr *ngFor="let user of displayedItems">
         <td scope="row">
           <div class="float-left d-flex p-3 flex-column">
             <div class="title d-inline-flex">
@@ -99,13 +98,11 @@
     [pageSize]="pageSize"
     [pageSizeOptions]="pageSizeOptions"
     (page)="onPageChange($event)"
-    color="primary"
   >
   </mat-paginator>
-</mat-card>
+</div>
 <div class="d-flex" *ngIf="isLoading">
   <app-spinner class="mx-auto"></app-spinner>
-</div>
 </div>
 <app-reload-page *ngIf="error && !isLoading"></app-reload-page>
 <app-not-allowed *ngIf="!canView() && !isLoading"></app-not-allowed>
