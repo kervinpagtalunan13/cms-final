@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+ import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-toolbar',
@@ -8,6 +8,9 @@ import { Component, EventEmitter, Output } from '@angular/core';
 export class ToolbarComponent {
   toggleBtnNavBar = 'menu';
   @Output() toggleSideNav = new EventEmitter()
+
+  @Input() logo:string = ''
+  @Input() title: string = ''
 
   navToggle = true;
   toggleNavBarIcon(): void{

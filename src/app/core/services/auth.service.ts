@@ -12,7 +12,7 @@ export class AuthService {
   private baseUrl = `http://localhost:8000/api/`;
   private currentUserSubject = new BehaviorSubject<User | null>(null)
   currentUser$ = this.currentUserSubject.asObservable()
-  currentUser!:User
+  currentUser!:User | any
   constructor(private http: HttpClient) { }
   
   login(credentials:any){
@@ -34,16 +34,18 @@ export class AuthService {
       .pipe(
         tap(response => {
           this.removeToken()
+          this.currentUserSubject.next(null)
+          this.currentUser = null
         }),
         catchError(handleError)
       )
   }
 
   storeToken(token:string){
-    sessionStorage.setItem('token', token)
+    localStorage.setItem('token', token)
   }
   removeToken(){
-    sessionStorage.removeItem('token')
+    localStorage.removeItem('token')
   }
 
   getCurrentUser(){
@@ -69,26 +71,4 @@ export class AuthService {
     this.currentUser = updatedUser
   }
 
-
-
-
-  // private handleError(error: HttpErrorResponse) {
-  //   console.log(error);
-    
-  //   const appError: AppError = {
-  //     status: error.status,
-  //     message: error.error.message
-  //   }
-  //   // if (error.status === 0) {
-  //   //   // A client-side or network error occurred. Handle it accordingly.
-  //   //   console.error('An error occurred:', error.error);
-  //   // } else {
-  //   //   // The backend returned an unsuccessful response code.
-  //   //   // The response body may contain clues as to what went wrong.
-  //   //   console.error(
-  //   //     `Backend returned code ${error.status}, body was: `, error.error);
-  //   // }
-  //   // Return an observable with a user-facing error message.
-  //   return throwError(() => appError);
-  // }
 }

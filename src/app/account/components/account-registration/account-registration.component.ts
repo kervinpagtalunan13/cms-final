@@ -4,6 +4,9 @@ import { Subject } from 'rxjs';
 import { User } from 'src/app/core/models/user';
 import { AppError } from 'src/app/core/models/app-error';
 import { AccountService } from 'src/app/core/services/account.service';
+import { MatDialogRef } from '@angular/material/dialog';
+import { SubjectAddDialogComponent } from 'src/app/subject/components/subject-add-dialog/subject-add-dialog.component';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 export interface registerForm{
   // firstName: string,
@@ -23,7 +26,10 @@ export interface registerForm{
 })
 
 export class AccountRegistrationComponent {
-  constructor(private accountService: AccountService){}
+  constructor(private accountService: AccountService, 
+              public dialogRef: MatDialogRef<SubjectAddDialogComponent>,
+              private toast: ToastService
+    ){}
   srcResult: any;
   showDep=false;
   role='';
@@ -45,7 +51,18 @@ export class AccountRegistrationComponent {
     }
     return inputNode;
   }
+  error$ = new Subject<string>();
+  success$ = new Subject<string>()
+  onCancel() {
+    this.dialogRef.close(false);
+  }
+  closeAlert(){
+    this.error$.next('')
+  }
 
+  closeSuccessAlert(){
+    this.success$.next('')
+  }
 
   isShowDep(){
     if(this.role=='chair'){
@@ -63,11 +80,13 @@ export class AccountRegistrationComponent {
     // console.log(form.value);
     this.accountService.register(form.value).subscribe({
       next: data => {
-        this.errorMessage$.next('')
-        
+        this.error$.next('')
+        // this.success$.next('Subject created Successfully')
+        this.toast.showToastSuccess('Create Successfuly', 'User has been created successfully')
       },
       error: (err: AppError) => {
-        this.errorMessage$.next(err.message)
+        this.error$.next(err.message)
+        this.toast.showToastError('Creation Failed', err.message)
       }
     })
   }

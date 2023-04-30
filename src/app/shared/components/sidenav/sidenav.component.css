@@ -30,9 +30,10 @@ b{
 }
 
 .example-sidenav {
-  width: auto;
+  max-width: 250px !important;
   height: 100vh;
   position: fixed;
+  box-sizing: border-box;
 }
 .pic{
   
@@ -48,4 +49,8 @@ b{
     position: -webkit-sticky;
     top: 0; 
     z-index: 1000; 
+}
+
+.nav-item{
+  font-weight: 500;
 }

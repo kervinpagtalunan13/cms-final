@@ -11,6 +11,8 @@ import { CommonModule } from '@angular/common';
 import { MaterialModule } from './shared/material';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './core/interceptor/auth.interceptor';
+import { SharedModule } from './shared/shared.module';
+import { LandingPageComponent } from './landing-page/landing-page.component';
 
 // angular material
 // import { MatIconModule } from '@angular/material/icon';
@@ -32,8 +34,7 @@ import { AuthInterceptor } from './core/interceptor/auth.interceptor';
 @NgModule({
   declarations: [
     AppComponent, 
-    LoginComponent, 
-    dashboard, 
+    LoginComponent, LandingPageComponent, 
   ],
   imports: [
     BrowserModule,
@@ -44,7 +45,8 @@ import { AuthInterceptor } from './core/interceptor/auth.interceptor';
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
-    HttpClientModule
+    HttpClientModule,
+    SharedModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

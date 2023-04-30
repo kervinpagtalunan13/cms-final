@@ -3,7 +3,22 @@
     <button mat-icon-button (click)="toggleNavBarIcon()">
       <mat-icon>{{ toggleBtnNavBar }}</mat-icon>
     </button>
-    <span><b>CICT</b> Curriculum Management System</span>
+    <span class="d-flex align-items-center">
+      <div
+        class="rounded-circle me-1"
+        style="
+      width: 45px;
+      height: 45px;
+      background-image: url('{{
+          'http://127.0.0.1:8000/api/content/logo/' + (logo || 'logo-cict.png')
+        }}');
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
+      "
+      ></div>
+      <b> CICT</b> {{ title }}
+    </span>
     <span class="example-spacer"></span>
   </mat-toolbar-row>
 </mat-toolbar>

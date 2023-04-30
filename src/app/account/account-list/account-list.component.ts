@@ -1,5 +1,9 @@
 import { Component } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { EMPTY, catchError, combineLatest, tap } from 'rxjs';
+import { User } from 'src/app/core/models/user';
+import { AuthService } from 'src/app/core/services/auth.service';
+import { UserService } from 'src/app/core/services/user.service';
 
 export interface userList{
   id: number
@@ -25,8 +29,8 @@ export interface profileDetails{
   phone_no: string,
   created_at:string,
   updated_at: string,
-
 }
+
 export interface departmentDetails{
   id: number;
   department_code: string;
@@ -42,9 +46,26 @@ export interface departmentDetails{
   templateUrl: './account-list.component.html',
   styleUrls: ['./account-list.component.css']
 })
-
-
 export class AccountListComponent {
+
+  constructor(private userService: UserService,
+              private authService: AuthService
+    ){}
+  
+  isLoading:boolean = true
+  error: boolean = false
+  neededData$ = combineLatest([
+    this.userService.users$,
+    this.authService.getCurrentUser(),
+    this.authService.currentUser$
+  ]).pipe(
+    tap(),
+    catchError(err => {
+      this.isLoading = false
+      this.error = true
+      return EMPTY
+    })
+  )
 
   private _listFilter: string = '';
     get listFilter(): string{ 
@@ -279,7 +300,6 @@ currentPageIndex = 0; // Current page index
 displayedItems: any[] = []; // The items to display on the current page
 //paginator
 
-constructor() { }
 
 //pang filter
 ngOnInit(): void {

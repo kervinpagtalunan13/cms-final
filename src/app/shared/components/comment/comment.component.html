@@ -1,0 +1,110 @@
+<div class="container-fluid">
+  <h2 class="comments d-flex align-items-center my-2">
+    <span class="me-1">Comments</span>
+    <mat-icon class="mt-1">chat</mat-icon>
+  </h2>
+  <div class="my-2">
+    <div class="chat-c" [ngStyle]="{ 'max-height': height + 'px' }">
+      <mat-card class="shadow p-4" *ngIf="comments.length == 0">
+        <mat-card-content class="text-center">
+          <div>
+            <mat-icon>announcement</mat-icon>
+          </div>
+          this curriculum doesn't have comments
+        </mat-card-content>
+      </mat-card>
+      <mat-card class="comment-card mb-3" *ngFor="let comment of comments">
+        <mat-card-header>
+          <img
+            mat-card-avatar
+            src="{{
+              'http://127.0.0.1:8000/api/profiles/images/' +
+                (comment?.user?.profile?.profile_pic || 'no-image.jpg')
+            }}"
+          />
+
+          <mat-card-subtitle>
+            <span>{{ comment.user?.profile?.name }}</span>
+            <div>
+              <small class="">{{
+                comment.created_at | timeDifferencePipe
+              }}</small>
+            </div>
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content class="mt-2 bg-light-subtle">
+          <p>{{ comment.body }}</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <form
+      class="w-100 p-2 shadow-sm"
+      *ngIf="type == 'view' && role == 'reviewer'"
+      #commentForm="ngForm"
+      (ngSubmit)="submit(commentForm)"
+    >
+      <mat-form-field class="example-full-width w-100">
+        <mat-label>Subject</mat-label>
+        <input
+          matInput
+          placeholder=""
+          type="text"
+          name="subject"
+          value="Header"
+          [(ngModel)]="comment.subject"
+        />
+      </mat-form-field>
+      <mat-form-field class="example-full-width w-100">
+        <mat-label>Leave a comment</mat-label>
+        <textarea
+          type="text"
+          name="body"
+          style="resize: none; height: 80px"
+          matInput
+          placeholder="Ex. It makes me feel..."
+          [(ngModel)]="comment.body"
+        ></textarea>
+      </mat-form-field>
+      <button mat-flat-button color="primary" class="">
+        <mat-icon>send</mat-icon>
+      </button>
+    </form>
+  </div>
+  <!-- <form
+    class="example-form"
+    #commentForm="ngForm"
+    (ngSubmit)="addComment(commentForm)"
+  >
+    <mat-form-field class="example-full-width">
+      <mat-label>Subject</mat-label>
+      <input
+        matInput
+        placeholder=""
+        type="text"
+        name="header"
+        value="Header"
+        ngModel
+      />
+    </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <mat-label>Leave a comment</mat-label>
+      <textarea
+        type="text"
+        name="feedback"
+        style="resize: none; height: 80px"
+        matInput
+        placeholder="Ex. It makes me feel..."
+        ngModel
+      ></textarea>
+      <button
+        mat-raised-button
+        color="primary"
+        style="float: right; width: 1px"
+        type="submit"
+      >
+        <mat-icon>send</mat-icon>
+      </button>
+    </mat-form-field>
+  </form> -->
+</div>

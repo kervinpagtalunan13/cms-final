@@ -1,0 +1,82 @@
+<app-sidenav>
+  <div class="container p-4 bg-white" *ngIf="neededData$ | async">
+    <span class="h4">Departments</span>
+    <mat-tab-group>
+      <mat-tab
+        [label]="department.department_code | uppercase"
+        *ngFor="let department of departments"
+        class="p-3"
+      >
+        <div class="container">
+          <app-empty-state
+            name="Faculty Members"
+            message="once an admin assign a faculty in this department, you'll see it here"
+            *ngIf="!department.members.length"
+          ></app-empty-state>
+          <div class="row g-2">
+            <div class="col-lg-6" *ngFor="let member of department.members">
+              <div
+                class="shadow-md p-4 border my-1 d-flex justify-content-between"
+                style="
+                  border: 1px solid gray;
+                  border-left: 5px solid #d05834 !important;
+                  width: 100%;
+                "
+              >
+                <div
+                  class="d-flex gap-2 col-6 m-1 align-items-center justify-content-between"
+                  style="width: 100%"
+                >
+                  <div class="d-flex">
+                    <div
+                      class="rounded-circle me-3"
+                      style="
+                    width: 70px;
+                    height: 70px;
+                    background-image: url('{{
+                        'http://127.0.0.1:8000/api/profiles/images/' +
+                          (member?.profile?.profile_pic || 'no-image.jpg')
+                      }}');
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                    "
+                    ></div>
+                    <div class="my-auto">
+                      <div>
+                        <span class="fw-bold">{{
+                          member?.profile?.name || "not set his/her name yet"
+                        }}</span>
+                      </div>
+                      <small>
+                        {{ member?.email }}
+                      </small>
+                      <div>
+                        <small>{{ member?.role | titlecase }}</small>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <button
+                      mat-flat-button
+                      color="primary"
+                      (click)="viewProfile(member)"
+                    >
+                      <mat-icon>remove_red_eye</mat-icon>
+                      view
+                    </button>
+                  </div>
+                </div>
+                <div>
+                  <div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  <app-spinner *ngIf="isLoading"></app-spinner>
+  <app-reload-page *ngIf="!isLoading && errorInit"></app-reload-page>
+</app-sidenav>

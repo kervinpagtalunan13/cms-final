@@ -1,0 +1,29 @@
+<div class="bg-light shadow rounded overflow-hidden" color="primary">
+  <div class="text-center p-4" style="color: #d05834">
+    <mat-icon>create</mat-icon>
+    <div>
+      <span class="h5">{{ title }}</span>
+    </div>
+  </div>
+  <!-- <h1 mat-dialog-title>{{ title }}</h1> -->
+  <div class="bg-gradient p-4" style="background-color: #e4e4e7">
+    <div mat-dialog-content style="color: #52525b"></div>
+    <div
+      mat-dialog-actions
+      class="d-flex align-items-center justify-content-center"
+    >
+      <button
+        mat-button
+        color="warn"
+        (click)="onConfirm()"
+        class="text-light"
+        style="background-color: #d05834"
+      >
+        Confirm
+      </button>
+      <button mat-button (click)="onCancel()" class="shadow-sm" style="">
+        Cancel
+      </button>
+    </div>
+  </div>
+</div>

@@ -21,10 +21,10 @@ $ccs-custom-theme:(
  900: #7d1d00,
  // ... continues to 900
  contrast: (
-  50: #3c3c3c,
-  100: #606060,
-  200: #818181,
-  300: #979797,
+  50: white,
+  100: white,
+  200: white,
+  300: white,
   400: white,
   500: white,
   600: white, 
@@ -48,10 +48,10 @@ $ccs-dark-custom-theme:(
  900: black,
  // ... continues to 900
  contrast: (
-  50: #3c3c3c,
-  100: #606060,
-  200: #818181,
-  300: #979797,
+  50: white,
+  100: white,
+  200: white,
+  300: white,
   400: white,
   500: white,
   600: white, 
@@ -68,10 +68,10 @@ $cict-curriculum-system-dark-primary: mat.define-palette($ccs-dark-custom-theme)
 $cict-curriculum-system-dark-accent: mat.define-palette($ccs-dark-custom-theme);
 $cict-curriculum-system-dark-warn: mat.define-palette($ccs-dark-custom-theme);
 $cict-curriculum-system-primary: mat.define-palette($ccs-custom-theme);
-$cict-curriculum-system-accent: mat.define-palette(mat.$pink-palette);
+$cict-curriculum-system-accent: mat.define-palette($ccs-custom-theme);
 
 // The warn palette is optional (defaults to red).
-$cict-curriculum-system-warn: mat.define-palette(mat.$red-palette);
+$cict-curriculum-system-warn: mat.define-palette($ccs-custom-theme);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".

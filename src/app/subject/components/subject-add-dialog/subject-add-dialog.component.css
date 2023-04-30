@@ -7,3 +7,7 @@
 .example-full-width {
   width: 100%;
 }
+
+.form-control{
+  width: 500px;
+}

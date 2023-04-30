@@ -1,0 +1,63 @@
+<div
+  class="bg-light border shadow rounded overflow-hidden"
+  style="width: 500px"
+>
+  <div class="text-center p-4" style="color: #d05834">
+    <mat-icon>create</mat-icon>
+    <div>
+      <span class="h5">Assign Elective</span>
+    </div>
+  </div>
+  <div class="p-4" style="background-color: #e4e4e7">
+    <div mat-dialog-content>
+      <form #form="ngForm" id="form" (ngSubmit)="submit(form)">
+        <select name="track" class="form-select mb-1 outline-0" ngModel="1">
+          <option *ngFor="let item of electiveSubjects" [value]="item.id">
+            {{item.track | uppercase}}
+          </option>
+        </select>
+
+        <select name="index" class="form-select outline-none" ngModel="0">
+          <option value="0" selected>Elective 1</option>
+          <option value="1">Elective 2</option>
+          <option value="2">Elective 3</option>
+          <option value="3">Elective 4</option>
+          <option value="4">Elective 5</option>
+        </select>
+      </form>
+      <!-- 
+      <app-notification
+        class="mt-3"
+        *ngIf="error$ | async as errorMessage"
+        [message]="errorMessage"
+        type="error"
+        (close)="closeAlert()"
+      >
+      </app-notification>
+      <app-notification
+        class="mt-2"
+        *ngIf="success$ | async as message"
+        [message]="message"
+        type="success"
+        (close)="closeSuccessAlert()"
+      >
+      </app-notification> -->
+    </div>
+    <div
+      mat-dialog-actions
+      class="d-flex align-items-center justify-content-center"
+    >
+      <button
+        mat-flat-button
+        type="submit"
+        form="form"
+        color="primary"
+        class="text-light"
+        style="background-color: #d05834"
+      >
+        Submit
+      </button>
+      <button mat-button class="shadow-sm" (click)="onCancel()">Cancel</button>
+    </div>
+  </div>
+</div>

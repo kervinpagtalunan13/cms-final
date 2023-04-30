@@ -1,0 +1,99 @@
+<div class="bg-light shadow rounded overflow-hidden" color="primary">
+  <div class="pt-2 pe-2">
+    <button mat-icon-button class="float-end" (click)="onCancel()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div class="text-center p-4" style="color: #d05834">
+    <mat-icon>people</mat-icon>
+    <div>
+      <span class="h5">Viewing Profile</span>
+    </div>
+  </div>
+  <!-- <h1 mat-dialog-title>{{ title }}</h1> -->
+  <div class="bg-gradient p-4" style="background-color: #e4e4e7">
+    <div mat-dialog-content style="color: #52525b">
+      <div class="d-flex">
+        <div
+          class="rounded-circle me-3"
+          style="
+            width: 75px;
+            height: 75px;
+            background-image: url('{{
+            'http://127.0.0.1:8000/api/profiles/images/' +
+              (user?.profile?.profile_pic || 'no-image.jpg')
+          }}');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+          "
+        ></div>
+        <div class="my-auto">
+          <div>
+            <span>{{ user?.profile?.name || "not yet set" }}</span>
+          </div>
+          <div>
+            <small
+              >{{ user.role | titlecase }}
+              <span *ngIf="user.department"
+                >({{ user.department.department_code | uppercase }})</span
+              >
+            </small>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex align-items-center mt-4">
+        <mat-icon class="me-2">email</mat-icon>
+        <small> {{ user.email }} </small>
+      </div>
+      <div class="d-flex align-items-center mt-1">
+        <mat-icon class="me-2">phone</mat-icon>
+        <small> {{ user?.profile?.phone_no || "not yet set" }} </small>
+      </div>
+      <div class="d-flex align-items-center mt-1">
+        <mat-icon class="me-2">house</mat-icon>
+        <small> {{ user?.profile?.address || "not yet set" }} </small>
+      </div>
+      <div class="d-flex align-items-center mt-1">
+        <mat-icon class="me-2">calendar</mat-icon>
+        <small>
+          {{ (user?.profile?.birth_date | date) || "not yet set" }}
+        </small>
+      </div>
+      <div class="d-flex align-items-center mt-1">
+        <span class="me-2">Member since:</span>
+        <small>
+          {{ (user?.created_at | date) || "not yet set" }}
+        </small>
+      </div>
+    </div>
+    <div
+      mat-content-actions
+      class="d-flex align-items-center gap-2 mt-2"
+      style="width: 100%"
+      *ngIf="role == 'admin'"
+    >
+      <button
+        mat-flat-button
+        style="background-color: #d05834"
+        class="text-light"
+        *ngIf="user.status == 'a'"
+        (click)="onConfirm()"
+      >
+        <mat-icon class="me-1">delete</mat-icon>
+        <span>move to Inactive</span>
+      </button>
+      <button
+        mat-flat-button
+        style="background-color: #d05834"
+        class="text-light"
+        *ngIf="user.status == 'i'"
+        (click)="onConfirm()"
+      >
+        <mat-icon class="me-1">restore</mat-icon>
+        <span>move to active</span>
+      </button>
+    </div>
+  </div>
+</div>

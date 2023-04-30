@@ -1,22 +1,38 @@
-<div class="container">
+<div class="container p-4" *ngIf="(neededData$ | async) && canView()">
+  <app-empty-state
+    name="Users"
+    message="once Admin have added User, you'll see it here"
+    *ngIf="!users.length"
+  ></app-empty-state>
+  <header class="d-flex justify-content-between align-items-center">
+    <span class="h3">Accounts</span>
+    <button
+      mat-raised-button
+      color="primary"
+      style="float: right"
+      (click)="openDialog()"
+    >
+      Create New
+    </button>
+  </header>
+  <mat-form-field style="width: 200px" class="example-form-field">
+    <input
+      matInput
+      type="text"
+      [(ngModel)]="listFilter"
+      placeholder="Search..."
+    />
+    <!-- <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+                <mat-icon>clear</mat-icon>
+            </button> --> </mat-form-field
+  ><mat-icon>search</mat-icon>
   <table class="table">
-    <thead>
+    <thead *ngIf="false">
       <tr>
         <th scope="col" style="padding: 40px">
           <span class="tit">Accounts</span>
         </th>
         <th style="padding: 20px">
-          <mat-form-field style="width: 200px" class="example-form-field">
-            <input
-              matInput
-              type="text"
-              [(ngModel)]="listFilter"
-              placeholder="Search..."
-            />
-            <!-- <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
-                        <mat-icon>clear</mat-icon>
-                    </button> --> </mat-form-field
-          ><mat-icon>search</mat-icon>
           <!-- <button mat-raised-button color="primary"></button> -->
 
           <!-- [routerLink]="['register']" -->
@@ -36,18 +52,28 @@
         <td scope="row">
           <div class="float-left d-flex p-3 flex-column">
             <div class="title d-inline-flex">
-              <img
-                [src]="user?.profile?.profile_pic"
-                width="70px"
-                height="70px"
-                style="border-radius: 50%"
-              />
+              <div
+                class="rounded-circle me-3"
+                style="
+                  width: 70px;
+                  height: 70px;
+                  background-position: center;
+                  background-repeat: no-repeat;
+                  background-size: cover;
+                  background-image: url('{{
+                  'http://127.0.0.1:8000/api/profiles/images/' +
+                    (user?.profile?.profile_pic || 'no-image.jpg')
+                }}');
+                "
+              ></div>
               <div
                 class="float-left d-flex p-3 flex-column"
                 style="font-size: small"
               >
                 <span class="name"
-                  >{{ user?.profile?.name }} ({{ user?.role }})</span
+                  >{{ user?.profile?.name || "not yet set his/her name" }} ({{
+                    user?.role | titlecase
+                  }})</span
                 >
                 <span class="department"
                   >{{ user?.department?.description }}
@@ -68,6 +94,7 @@
               mat-raised-button
               color="primary"
               style="width: 100px; margin-right: 30px"
+              (click)="viewProfile(user)"
             >
               View
             </button>
@@ -85,3 +112,8 @@
   >
   </mat-paginator>
 </div>
+<div class="d-flex" *ngIf="isLoading">
+  <app-spinner class="mx-auto"></app-spinner>
+</div>
+<app-reload-page *ngIf="error && !isLoading"></app-reload-page>
+<app-not-allowed *ngIf="!canView() && !isLoading"></app-not-allowed>

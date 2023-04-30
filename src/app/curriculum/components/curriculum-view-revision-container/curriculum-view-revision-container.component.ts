@@ -9,6 +9,7 @@ import { Comment } from 'src/app/core/models/comment';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
 import { User } from 'src/app/core/models/user';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 
 @Component({
@@ -22,7 +23,8 @@ export class CurriculumViewRevisionContainerComponent implements OnInit{
               private authService: AuthService,
               private route: ActivatedRoute,
               private dialog: MatDialog,
-              private router: Router
+              private router: Router,
+              private toast: ToastService
   ){}
   
   isLoading:boolean = true
@@ -30,8 +32,9 @@ export class CurriculumViewRevisionContainerComponent implements OnInit{
   currUserId:any = 0
   userId:any = 0
   currentUser!:User
+  electiveSubjects:any[] = []
+  curriculumDepartment:any = ''
 
-  
   neededData$ = combineLatest([
     this.route.data,
     this.authService.getCurrentUser(),
@@ -56,9 +59,12 @@ export class CurriculumViewRevisionContainerComponent implements OnInit{
       this.title = `CICT ${this.curriculum.curriculum.department.department_code} Curriculum version ${this.curriculum.version}`
       
 
-      this.subjects = JSON.parse(this.curriculum.metadata)
+      this.subjects = JSON.parse(this.curriculum.metadata).subjects
+      this.electiveSubjects = JSON.parse(this.curriculum.metadata).electiveSubjects
+      this.curriculumDepartment = this.curriculum.curriculum.department_id
+
       this.status = this.curriculum.status   
-      this.author = this.curriculum.user.profile.name
+      this.author = this.curriculum?.user?.profile?.name || 'has not set his/her name yet'
       this.isLoading = false
 
     }),
@@ -116,8 +122,10 @@ export class CurriculumViewRevisionContainerComponent implements OnInit{
           next: response => {
             this.curriculum.status = 'a'
             this.status = 'a'
+            this.toast.showToastSuccess('Approved Successfully', `revision has been approved`)
           },
           error: err => {
+            this.toast.showToastError('Approved Failed', `Something occured while approving the revision`)
             
           }
         })

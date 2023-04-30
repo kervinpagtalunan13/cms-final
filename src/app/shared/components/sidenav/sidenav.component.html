@@ -1,75 +1,134 @@
-<mat-sidenav-container autosize="true">
-  <app-toolbar (toggleSideNav)="drawer.toggle()"></app-toolbar>
+<mat-sidenav-container autosize="true" *ngIf="neededData$ | async as user">
+  <app-toolbar
+    (toggleSideNav)="drawer.toggle()"
+    [title]="title"
+    [logo]="logo"
+  ></app-toolbar>
   <ng-content></ng-content>
-  <mat-sidenav #drawer class="example-sidenav" mode="side" closed>
+  <mat-sidenav
+    #drawer
+    class="example-sidenav overflow-hidden p-3"
+    mode="side"
+    opened
+  >
+    <!-- <div class="position-relative p-3" style="height: 100%"> -->
+    <header class="text-dark d-flex pb-4 border-bottom">
+      <div class="me-2">
+        <!-- <img
+          class="shadow-sm rounded"
+          style="height: 50px"
+          src="{{
+            'http://127.0.0.1:8000/api/profiles/images/' +
+              (user.profile?.profile_pic || 'no-image.jpg')
+          }}"
+          alt=""
+        /> -->
+        <div
+          class="rounded-circle"
+          style="
+          width: 50px;
+          height: 50px;
+          background-position: center;
+          background-repeat: no-repeat;
+          background-size: cover;
+          background-image: url('{{
+            'http://127.0.0.1:8000/api/profiles/images/' +
+              (user?.profile?.profile_pic || 'no-image.jpg')
+          }}');
+        "
+        ></div>
+      </div>
+      <div class="">
+        <div>
+          <small class="text-dark nav-item">{{
+            user.profile?.name || "not set name yet"
+          }}</small>
+        </div>
+
+        <small class="text-secondary">
+          {{ user.role | titlecase }}
+          {{
+            user.department &&
+              "(" + (user.department.department_code | uppercase) + ")"
+          }}
+        </small>
+      </div>
+    </header>
     <mat-nav-list role="list">
       <mat-list-item
         role="listitem"
-        class="mb-5 mt-3 d-flex align-items-center"
+        [routerLink]="['/dashboard']"
+        routerLinkActive="active"
+        class="nav-item rounded"
       >
-        <img src="assets/logo-cict.png" class="pic" />
-        <div class="m-2">Keno Piad</div>
+        <mat-icon fontIcon="dashboard" class="me-3"></mat-icon> Dashboard
       </mat-list-item>
-      <mat-list-item role="listitem"
-        ><button
-          mat-button
-          [routerLink]="['/dashboard']"
-          routerLinkActive="active"
-        >
-          <mat-icon fontIcon="dashboard" class="me-2"></mat-icon> Dashboard
-        </button></mat-list-item
+      <mat-list-item
+        role="listitem"
+        [routerLink]="['/user']"
+        routerLinkActive="active"
+        class="nav-item rounded"
       >
-      <mat-list-item role="listitem" [routerLink]="['/user']"
-        ><button mat-button>
-          <mat-icon fontIcon="account_circle"></mat-icon> User
-        </button></mat-list-item
-      >
+        <mat-icon fontIcon="account_circle" class="me-3"></mat-icon> User
+      </mat-list-item>
       <mat-list-item
         role="listitem"
         [routerLink]="['/accounts']"
         routerLinkActive="active"
+        class="nav-item rounded"
+        *ngIf="user.role == 'admin'"
       >
-        <!-- <a mat-list-item [routerLink]="['/accounts']" routerLinkActive="active"
-          >Accounts</a
-        > -->
-        <button mat-button>
-          <mat-icon fontIcon="supervisor_account"></mat-icon> Accounts
-        </button>
+        <mat-icon fontIcon="supervisor_account" class="me-3"></mat-icon>
+        Accounts
       </mat-list-item>
       <mat-list-item
         role="listitem"
         [routerLink]="['/curriculums']"
         routerLinkActive="active"
+        class="nav-item rounded position-relative"
       >
-        <!-- queryParamsHandling="preserve" -->
-        <button mat-button>
-          <mat-icon fontIcon="format_align_center"></mat-icon> Curriculum
-        </button></mat-list-item
-      >
+        <mat-icon fontIcon="format_align_center" class="me-3"></mat-icon>
+        Curriculums
+        <span class="badge rounded-pill bg-danger ms-2" *ngIf="newCurr"
+          >{{ newCurr }} new</span
+        >
+      </mat-list-item>
       <mat-list-item
         role="listitem"
         [routerLink]="['/subjects']"
         routerLinkActive="active"
-        ><button mat-button>
-          <mat-icon fontIcon="book"></mat-icon> Subjects
-        </button></mat-list-item
+        class="nav-item rounded"
       >
-      <mat-list-item role="listitem"
-        ><button mat-button>
-          <mat-icon fontIcon="account_balance"></mat-icon> Department
-        </button></mat-list-item
+        <mat-icon fontIcon="book" class="me-3"></mat-icon> Subjects
+      </mat-list-item>
+      <mat-list-item
+        role="listitem "
+        class="nav-item rounded"
+        [routerLink]="['/departments']"
+        routerLinkActive="active"
       >
-      <mat-list-item role="listitem"
-        ><button mat-button>
-          <mat-icon fontIcon="wb_sunny"></mat-icon> Content Management
-        </button></mat-list-item
+        <mat-icon fontIcon="account_balance" class="me-3"></mat-icon>
+        Department
+      </mat-list-item>
+      <mat-list-item
+        role="listitem"
+        class="nav-item rounded"
+        [routerLink]="['/content']"
+        routerLinkActive="active"
+        *ngIf="user.role == 'admin'"
       >
-      <mat-list-item role="listitem" (click)="logout()"
-        ><button mat-button>
-          <mat-icon fontIcon="logout"></mat-icon> Logout
-        </button></mat-list-item
+        <mat-icon fontIcon="wb_sunny" class="me-3"></mat-icon> Content
+        Management
+      </mat-list-item>
+      <mat-list-item
+        role="listitem"
+        (click)="logout()"
+        class="position-absolute bottom-0 nav-item"
       >
+        <mat-icon fontIcon="logout" class="me-3"></mat-icon> Logout
+      </mat-list-item>
     </mat-nav-list>
+    <!-- </div> -->
   </mat-sidenav>
 
   <!-- <app-curriculum-management></app-curriculum-management> -->

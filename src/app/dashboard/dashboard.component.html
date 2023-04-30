@@ -1,9 +1,207 @@
-<h1 class="pageTitle">Dashboard</h1>
-<mat-grid-list cols="4" rowHeight="1:0.5" class="grid">
-    <mat-grid-tile  class="tile"> <h3>Current Curriculum Version <br> <br> <span>{{currentVersion}}</span></h3> </mat-grid-tile>
-    <mat-grid-tile class="tile"> <h3>Version in Revision <br> <br> <span>{{inRevision}}</span></h3> </mat-grid-tile>
-    <mat-grid-tile class="tile"> <h3>Date Today<br> <br> <span>{{currentVersion}}</span></h3></mat-grid-tile>
-    <mat-grid-tile class="tile" rowspan="3"> </mat-grid-tile>
-    <mat-grid-tile class="tile" colspan="2" rowspan="2"><div class="lineChart" [chart]='lineChart2'></div></mat-grid-tile>
-    <mat-grid-tile class="tile" colspan="1" rowspan="2"><div class="pieChart" [chart]='pieChart'></div></mat-grid-tile>
-</mat-grid-list>
+<app-sidenav>
+  <div
+    class="container"
+    style="padding: 30px"
+    *ngIf="neededData$ | async as data"
+  >
+    <header class="d-flex align-items-center justify-content-between">
+      <span class="h3">Dashboard</span>
+    </header>
+    <div class="row gap-4">
+      <div class="col-sm">
+        <div class="row gap-2">
+          <mat-card class="col-sm">
+            <mat-card-subtitle>Pending Curriculums</mat-card-subtitle>
+            <mat-card-title>{{ data.pendingCurriculums }}</mat-card-title>
+          </mat-card>
+          <mat-card class="col-sm">
+            <mat-card-subtitle>Pending Revisions</mat-card-subtitle>
+            <mat-card-title>{{ data.pendingRevisions }}</mat-card-title>
+          </mat-card>
+        </div>
+
+        <div class="row gap-2">
+          <mat-card class="col-sm">
+            <mat-card-subtitle>Active Curriculums</mat-card-subtitle>
+            <mat-card-title>{{ data.activeCurriculums }}</mat-card-title>
+          </mat-card>
+          <mat-card class="col-sm">
+            <mat-card-subtitle>Approve Revisions</mat-card-subtitle>
+            <mat-card-title>{{ data.approvedRevisions }}</mat-card-title>
+          </mat-card>
+        </div>
+
+        <div class="row">
+          <mat-card class="col-sm">
+            <mat-card-subtitle class="m-0 p-0"
+              >Latest Submitted Revision</mat-card-subtitle
+            >
+            <mat-card-content *ngIf="data.latestSubmittedRevisions">
+              <div class="fw-bold text-dark fs-6">
+                <span>
+                  CICT
+                  {{
+                    data.latestSubmittedRevisions?.curriculum?.department
+                      ?.department_code
+                  }}
+                  Curriculum version
+                  {{ data.latestSubmittedRevisions?.curriculum?.version }}
+                </span>
+                <button
+                  mat-icon-button
+                  [routerLink]="[
+                    '/curriculums',
+                    'revisions',
+                    data.latestSubmittedRevisions.id
+                  ]"
+                >
+                  <mat-icon color="primary">remove_red_eye</mat-icon>
+                </button>
+              </div>
+              <div>
+                <small>{{
+                  data.latestSubmittedRevisions?.user?.profile?.name ||
+                    "the creator of this revision hasn't set up his/her profile"
+                }}</small>
+              </div>
+              <div>
+                <small>{{
+                  data.latestSubmittedRevisions.created_at | date
+                }}</small>
+              </div>
+            </mat-card-content>
+            <mat-card-content *ngIf="!data.latestSubmittedRevisions">
+              <div class="text-center">
+                <mat-icon>hourglass_empty</mat-icon>
+                <div>
+                  <span class="h5">No revisions, yet.</span>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+        <div class="row">
+          <mat-card class="col-sm" *ngIf="false">
+            <mat-card-subtitle class="m-0 p-0"
+              >Latest Submitted Revision</mat-card-subtitle
+            >
+            <mat-card-content>
+              <div class="fw-bold text-dark fs-6">
+                <span>
+                  CICT
+                  {{
+                    data.latestSubmittedRevisions?.curriculum?.department
+                      ?.department_code
+                  }}
+                  Curriculum version
+                  {{ data.latestSubmittedRevisions?.curriculum?.version }}
+                </span>
+                <button
+                  mat-icon-button
+                  [routerLink]="[
+                    '/curriculums',
+                    'revisions',
+                    data.latestSubmittedRevisions.id
+                  ]"
+                >
+                  <mat-icon color="primary">remove_red_eye</mat-icon>
+                </button>
+              </div>
+              <div>
+                <small>{{
+                  data.latestSubmittedRevisions?.user?.profile?.name ||
+                    "the creator of this revision hasn't set up his/her profile"
+                }}</small>
+              </div>
+              <div>
+                <small>{{
+                  data.latestSubmittedRevisions.created_at | date
+                }}</small>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+
+      <div class="col-sm">
+        <app-comment
+          *ngIf="data.latestComments.length"
+          [comments]="data.latestComments"
+        ></app-comment>
+        <app-empty-state
+          name="comments"
+          *ngIf="!data.latestComments.length"
+        ></app-empty-state>
+      </div>
+    </div>
+
+    <div class="row gap-2" *ngIf="false">
+      <mat-card class="col-sm">
+        <mat-card-subtitle class="m-0 p-0"
+          >Latest Submitted Revision</mat-card-subtitle
+        >
+        <mat-card-content>
+          <div class="fw-bold text-dark fs-6">
+            <span>
+              CICT
+              {{
+                data.latestSubmittedRevisions?.curriculum?.department
+                  ?.department_code
+              }}
+              Curriculum version
+              {{ data.latestSubmittedRevisions?.curriculum?.version }}
+            </span>
+            <button
+              mat-icon-button
+              [routerLink]="[
+                '/curriculums',
+                'revisions',
+                data.latestSubmittedRevisions.id
+              ]"
+            >
+              <mat-icon color="primary">remove_red_eye</mat-icon>
+            </button>
+          </div>
+          <div>
+            <small>{{
+              data.latestSubmittedRevisions?.user?.profile?.name ||
+                "the creator of this revision hasn't set up his/her profile"
+            }}</small>
+          </div>
+          <div>
+            <small>{{ data.latestSubmittedRevisions.created_at | date }}</small>
+          </div>
+        </mat-card-content>
+      </mat-card>
+      <div class="user col-sm" style="margin-right: 10px">
+        <header>Latest Approved Revision</header>
+        <div>
+          <header>
+            CICT Curriculum 1.3.2
+            <button mat-icon-button>
+              <mat-icon color="primary">remove_red_eye</mat-icon>
+            </button>
+          </header>
+          <h5>Juan Dela Cruz</h5>
+          <h5>04-03-00</h5>
+        </div>
+      </div>
+    </div>
+    <div class="row gap-4">
+      <mat-card class="col-md-6">
+        <mat-card-content>
+          <div class="pieChart" [chart]="pieChart"></div>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card class="col-md-5">
+        <mat-card-content>
+          <div class="pieChart" [chart]="pieChartSubject"></div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+
+  <app-spinner *ngIf="isLoading"></app-spinner>
+  <app-reload-page *ngIf="!isLoading && error"></app-reload-page>
+</app-sidenav>

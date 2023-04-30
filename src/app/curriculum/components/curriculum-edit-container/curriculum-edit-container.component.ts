@@ -9,6 +9,7 @@ import { AuthService } from 'src/app/core/services/auth.service';
 import { CommentService } from 'src/app/core/services/comment.service';
 import { CurriculumService } from 'src/app/core/services/curriculum.service';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
   selector: 'app-curriculum-edit-container',
@@ -21,7 +22,8 @@ export class CurriculumEditContainerComponent implements OnInit{
               private authService: AuthService,
               private router: Router,
               private commentService: CommentService,
-              private dialog: MatDialog
+              private dialog: MatDialog,
+              private toast: ToastService
   ){}
   errorMessage:string = ''
   isLoading:boolean = true
@@ -41,16 +43,18 @@ export class CurriculumEditContainerComponent implements OnInit{
 
       this.curriculum = curriculums.find(curriculum => curriculum.id == id)
       this.currUserId = this.curriculum.user_id
-      
+      this.departmentId = this.curriculum.department_id
+
       this.currentUser = user
       this.userId = this.currentUser.id
       this.role = this.currentUser.role
       this.comments = comments.filter(comment => comment.curriculum_id == id)
-
-      this.subjects = JSON.parse(this.curriculum.metadata)
+      
+      this.subjects = JSON.parse(this.curriculum.metadata).subjects
+      this.electiveSubjects = JSON.parse(this.curriculum.metadata).electiveSubjects
       this.title = `CICT ${this.curriculum.department.department_code} Curriculum version ${this.curriculum.version}`
       this.status = this.curriculum.status   
-      this.author = this.curriculum.user.profile.name
+      this.author = this.curriculum?.user?.profile?.name || 'name not set yet'
       this.isLoading = false
 
     }),
@@ -60,10 +64,11 @@ export class CurriculumEditContainerComponent implements OnInit{
       return EMPTY
     })
   )
-
+  departmentId:any = ''
   currentUser!:User
   userId:any = 0
   currUserId:any = 0
+  electiveSubjects:any[] = []
   currentUser$ = this.authService.getCurrentUser().pipe(
     tap(user => {      
       this.role = user.role
@@ -87,15 +92,19 @@ export class CurriculumEditContainerComponent implements OnInit{
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        console.log(data);
         
-        const body = {subjects: data.subjects, version: data.version, departmentId: result.departmentId}
+        // const body = {subjects: data.subjects, version: data.version, departmentId: result.departmentId}
+        const body = {...data, subjects: { subjects: data.subjects, electiveSubjects: data.electiveSubjects }}
+
         
         this.curriculumService.updateCurriculum(this.curriculum.id, body).subscribe({
           next: (response:any) => {
             this.router.navigate(['/curriculums', response.id])
+            this.toast.showToastSuccess('Edited Successfully', `curriclum has been edited`)
           },
           error: err => {
-
+            this.toast.showToastError('Creation Failed', `${err.message}`)
           }
         })
 

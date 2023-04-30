@@ -1,18 +1,10 @@
 *{
     font-family: 'century gothic';
 }
-.lineChart{
-    /* flex:1; */
-    max-width: 900px;
-}
-.pieChart{
-    /* flex:1; */
-     max-width: 500px;
-}
 .tile{
     background-color: white;
     border-radius: 2rem;
-    box-shadow: 2px 2px 2px black;
+    /* box-shadow: 2px 2px 2px black; */
     text-align: center;
 }
 .grid{
@@ -23,11 +15,57 @@ h3{
     font-size: 20px;
     font-weight: 100;
 }
-span{
+/* span{
     font-weight: bold;
     font-size: 50px;
-}
+} */
 .pageTitle{
     margin-left: 30px;
     margin-top: 15px;
+}
+.user{
+    height: 180px;
+    background-color: white;
+    border-style: solid;
+    border-width: thin;
+    padding: 30px;
+    border-radius: 1rem;
+}
+.comments{
+    height: 525px;
+    background-color: white;
+    border-radius: 1rem;
+    padding: 20px;
+    border-style: solid;
+    border-width: thin;
+    border-radius: 1rem;
+    /* width: 300px; */
+}
+.row{
+    padding-top: 10px;
+}
+.cur{
+    padding: 20px;
+    border-style: solid;
+    border-width: thin;
+    border-radius: 1rem;
+}
+.num{
+    height: 120px;
+    background-color: white;
+    padding: 20px;
+    border-radius: .3rem;
+    margin-right: 10px;
+    border-style: solid;
+    border-width: thin;
+    text-align: right;
+}
+.chart{
+    padding: 20px;
+    border-style: solid;
+    border-width: thin;
+    border-radius: 1rem;
+}
+header{
+    font-weight: bold;
 }

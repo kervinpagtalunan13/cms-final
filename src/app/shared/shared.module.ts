@@ -9,7 +9,14 @@ import { TimeDifferencePipePipe } from '../core/pipe/time-difference-pipe.pipe';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { NotAllowedComponent } from './components/not-allowed/not-allowed.component';
 import { ReloadPageComponent } from './components/reload-page/reload-page.component';
-
+import { NotificationComponent } from './components/notification/notification.component';
+import { ViewProfileComponent } from './components/view-profile/view-profile.component';
+import { PdfViewerComponent } from './components/pdf-viewer/pdf-viewer.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
+import { FormsModule } from '@angular/forms';
+import { CommentComponent } from './components/comment/comment.component';
+import { AppComponent } from '../app.component';
+import { EmptyStateComponent } from './components/empty-state/empty-state.component';
 
 
 @NgModule({
@@ -20,19 +27,29 @@ import { ReloadPageComponent } from './components/reload-page/reload-page.compon
     TimeDifferencePipePipe,
     ConfirmDialogComponent,
     NotAllowedComponent,
-    ReloadPageComponent
+    ReloadPageComponent,
+    NotificationComponent,
+    ViewProfileComponent,
+    PdfViewerComponent,
+    ForgotPasswordComponent,
+    CommentComponent,
+    EmptyStateComponent,
   ],
   imports: [
     CommonModule,
     MaterialModule,
-    RouterModule
+    RouterModule,
+    FormsModule,
   ],
   exports: [
     SidenavComponent,
     SpinnerComponent,
     TimeDifferencePipePipe,
     NotAllowedComponent,
-    ReloadPageComponent
+    ReloadPageComponent,
+    NotificationComponent,
+    CommentComponent,
+    EmptyStateComponent
   ]
 })
 export class SharedModule { }

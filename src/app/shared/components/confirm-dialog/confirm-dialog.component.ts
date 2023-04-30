@@ -20,6 +20,10 @@ export class ConfirmDialogComponent {
     return this.data.message;
   }
 
+  get ul(){
+    return this.data?.listMessage || false
+  }
+
   onConfirm() {
     this.dialogRef.close(true);
   }

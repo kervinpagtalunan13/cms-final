@@ -1,63 +1,164 @@
-<div class="asd">
-  <p class="h5">Creating a Subject</p>
-  <div mat-dialog-content>
-    <form
-      enctype="multipart/form-data"
-      #createSubjectForm="ngForm"
-      (submit)="createSubject(createSubjectForm)"
-      id="form"
-    >
-      <mat-form-field class="example-full-width">
-        <mat-label>Subject Code</mat-label>
-        <input matInput placeholder="Subject Code" name="subjectCode" ngModel />
-      </mat-form-field>
-      <mat-form-field class="example-full-width" name="description" ngMode>
-        <mat-label>Description</mat-label>
-        <input matInput placeholder="Description" name="description" ngModel />
-      </mat-form-field>
-
-      <mat-form-field appearance="fill">
-        <mat-label>Department</mat-label>
-        <mat-select name="departmentId" ngModel="1">
-          <!-- <mat-option *ngFor="let food of " [value]="food.value">
-            {{food.viewValue}}
-          </mat-option> -->
-          <mat-option value="1">BSIT</mat-option>
-          <mat-option value="2">BLIS</mat-option>
-          <mat-option value=""> None </mat-option>
-        </mat-select>
-      </mat-form-field>
-
-      <!-- <input type="text"> -->
-
-      <!-- <button
-        type="button"
-        mat-raised-button
-        (click)="fileInput.click()"
-        color="primary"
-      >
-        Choose File
-      </button> -->
-
-      <input
-        name="syllabus"
-        #fileInput
-        type="file"
-        (change)="onFileSelected($event)"
-        ngModel
-        class="form-control"
-      />
-    </form>
-    <div class="text-danger" *ngIf="error$ | async as errorMessage">
-      {{ errorMessage }}
+<div class="bg-light border shadow rounded overflow-hidden">
+  <div class="text-center p-4" style="color: #d05834">
+    <mat-icon>create</mat-icon>
+    <div>
+      <span class="h5">Create Subject</span>
     </div>
   </div>
-  <div mat-dialog-actions>
-    <button mat-flat-button type="submit" form="form" color="primary">
-      Submit
-    </button>
-    <!-- <button mat-button [mat-dialog-close]="data.animal" cdkFocusInitial>Ok</button> -->
+  <div class="p-4" style="background-color: #e4e4e7">
+    <div mat-dialog-content>
+      <form
+        enctype="multipart/form-data"
+        #createSubjectForm="ngForm"
+        (submit)="createSubject(createSubjectForm)"
+        id="form"
+      >
+        <div class="d-flex gap-2 align-items-center">
+          <div class="form-floating mb-3">
+            <select
+              class="form-select shadow-none"
+              name="departmentId"
+              style="margin-right: 20px"
+              [(ngModel)]="department"
+              (change)="departmentOnChange()"
+            >
+              <option
+                *ngFor="let department of departments"
+                [value]="department.id"
+              >
+                {{ department.department_code | uppercase }}
+              </option>
+              <option value="">None</option>
+            </select>
+            <label for="departmentId">Department</label>
+          </div>
+          <!-- <mat-form-field appearance="fill">
+            <mat-label>Department</mat-label>
+            <mat-select
+              name="departmentId"
+              [(ngModel)]="department"
+              (ngModelChange)="departmentOnChange()"
+            >
+              <mat-option
+                *ngFor="let department of departments"
+                [value]="department.id"
+                >{{ department.department_code | uppercase }}</mat-option
+              >
+              <mat-option value=""> None </mat-option>
+            </mat-select>
+          </mat-form-field> -->
+          <mat-checkbox
+            color="primary"
+            [(ngModel)]="isElective"
+            name="isElective"
+            *ngIf="department == 1"
+            >Elective</mat-checkbox
+          >
+        </div>
+        <div class="form-floating mb-3" *ngIf="isElective">
+          <select class="form-select shadow-none" name="description" ngModel>
+            <option *ngFor="let x of [1, 2, 3, 4, 5]" [value]="x" selected>
+              {{ "Elective " + x }}
+            </option>
+          </select>
+          <label for="elective">Elective</label>
+        </div>
+
+        <!-- <mat-form-field appearance="fill" *ngIf="isElective">
+          <mat-label>Elective</mat-label>
+          <mat-select name="description" ngModel>
+            <mat-option *ngFor="let x of [1, 2, 3, 4, 5]" [value]="x">{{
+              "Elective " + x
+            }}</mat-option>
+          </mat-select>
+        </mat-form-field> -->
+
+        <div class="form-floating mb-3">
+          <input
+            class="form-control shadow-none"
+            placeholder="Subject Code"
+            name="subjectCode"
+            ngModel
+          />
+          <label for="subjectCode">Subject Code</label>
+        </div>
+
+        <!-- <mat-form-field class="example-full-width">
+          <mat-label>Subject Code</mat-label>
+          <input
+            matInput
+            placeholder="Subject Code"
+            name="subjectCode"
+            ngModel
+          />
+        </mat-form-field> -->
+        <div class="form-floating mb-3" *ngIf="!isElective">
+          <input
+            class="form-control shadow-none"
+            placeholder="Description"
+            name="description"
+            ngModel
+          />
+          <label for="description">Description</label>
+        </div>
+
+        <!-- <mat-form-field
+          class="example-full-width"
+          name="description"
+          ngModel
+          *ngIf="!isElective"
+        >
+          <mat-label>Description</mat-label>
+          <input
+            matInput
+            placeholder="Description"
+            name="description"
+            ngModel
+          />
+        </mat-form-field> -->
+
+        <input
+          name="syllabus"
+          *ngIf="!isElective"
+          #fileInput
+          type="file"
+          (change)="onFileSelected($event)"
+          ngModel
+          class="form-control mb-2"
+        />
+      </form>
+      <app-notification
+        class="mt-3"
+        *ngIf="error$ | async as errorMessage"
+        [message]="errorMessage"
+        type="error"
+        (close)="closeAlert()"
+      >
+      </app-notification>
+      <app-notification
+        class="mt-2"
+        *ngIf="success$ | async as message"
+        [message]="message"
+        type="success"
+        (close)="closeSuccessAlert()"
+      >
+      </app-notification>
+    </div>
+    <div
+      mat-dialog-actions
+      class="d-flex align-items-center justify-content-center"
+    >
+      <button
+        mat-flat-button
+        type="submit"
+        form="form"
+        color="primary"
+        class="text-light"
+        style="background-color: #d05834"
+      >
+        Submit
+      </button>
+      <button mat-button class="shadow-sm" (click)="onCancel()">Cancel</button>
+    </div>
   </div>
 </div>
-
-<!-- #createSubjectForm="ngForm" -->

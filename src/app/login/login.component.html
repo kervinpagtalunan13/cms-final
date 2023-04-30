@@ -1,4 +1,4 @@
-<div class="bg">
+<!-- <div class="bg">
   <div class="container">
     <div class="h-100 d-flex align-items-center justify-content-center">
       <div>
@@ -11,7 +11,6 @@
           >
         </h3>
 
-        <!--Form for Credentials-->
         <form
           class="pt-2"
           #loginForm="ngForm"
@@ -19,34 +18,164 @@
           id="loginForm"
         >
           <input
-            class="inputs"
+            class="form-control shadow-none"
+            style="width: 375px"
             placeholder="Email"
             name="email"
             [(ngModel)]="credentials.email"
           />
           <input
-            class="inputs mt-3"
+            class="form-control mt-3 shadow-none"
+            style="width: 375px"
             placeholder="Password"
             name="password"
+            type="password"
             [(ngModel)]="credentials.password"
           />
         </form>
 
-        <!--Invalid Credentials String-->
         <div *ngIf="error | async as errorMessage" class="mt-2 text-danger">
           {{ errorMessage }}
         </div>
 
-        <!--Login Btn-->
-        <button class="button mt-4" type="submit" form="loginForm">
+        <button
+          class="button btn mt-3"
+          color="primary"
+          type="submit"
+          form="loginForm"
+        >
           Login
         </button>
 
-        <!--Forgot Password-->
-        <a href="" class="text-danger float-right" style="margin-left: 120px"
-          >Forgot Password?</a
+        <div class="text-center mt-2">
+          <span class="text-center pointer" (click)="openForgotPass()"></span>
+        </div>
+
+        <button
+          mat-button
+          class="text-danger float-right"
+          style="margin-left: 120px"
+          (click)="openForgotPass()"
         >
+          Forgot Password?
+        </button>
       </div>
     </div>
   </div>
-</div>
+</div> -->
+
+<nav class="navbar navbar-expand-lg">
+  <div class="container-fluid py-2 px-4">
+    <div class="d-flex align-items-center">
+      <div class="bg-light rounded p-2" style="width: min-content">
+        <img
+          src="https://www.bulsu-cict.com/CICT.png"
+          alt=""
+          class="img-fluid"
+          style="max-width: 50px"
+        />
+      </div>
+      <div class="ms-2 d-none d-sm-block">
+        <span class="h5">Bulacan State University</span>
+        <br />
+        <span class="text-light">College of Information and Technology</span>
+      </div>
+    </div>
+  </div>
+</nav>
+<main class="100vh">
+  <div class="row container mx-auto g-4 align-items-center">
+    <div class="col-md-6 rounded-4 border img-wrapper d-none d-md-block">
+      <img
+        src="https://pia.gov.ph/uploads/2022/10/216526d932cb76aaaa3344f01d0ce9f7-800-1200.jpeg"
+        alt=""
+        class="img-fluid rounded-4"
+        style="transform: rotate(3deg)"
+      />
+    </div>
+    <div class="p-3 col-md-6">
+      <div class="h-100 d-flex align-items-center justify-content-center">
+        <div>
+          <img src="assets/bulsu.png" class="logos" />
+          <img src="assets/logo-cict.png" class="logos" />
+          <h3>
+            CICT<span>
+              Curriculum<br />
+              Management System</span
+            >
+          </h3>
+
+          <form
+            class="pt-2"
+            #loginForm="ngForm"
+            (ngSubmit)="checkCredentials(loginForm)"
+            id="loginForm"
+          >
+            <input
+              class="form-control shadow-none"
+              style="width: 375px"
+              placeholder="Email"
+              name="email"
+              [(ngModel)]="credentials.email"
+            />
+            <input
+              class="form-control mt-3 shadow-none"
+              style="width: 375px"
+              placeholder="Password"
+              name="password"
+              type="password"
+              [(ngModel)]="credentials.password"
+            />
+          </form>
+
+          <div *ngIf="error | async as errorMessage" class="mt-2 text-danger">
+            {{ errorMessage }}
+          </div>
+
+          <button
+            class="button btn mt-3"
+            color="primary"
+            type="submit"
+            form="loginForm"
+          >
+            Login
+          </button>
+
+          <div class="text-center mt-2">
+            <span class="text-center pointer" (click)="openForgotPass()"></span>
+          </div>
+
+          <button
+            mat-button
+            class="text-danger float-right"
+            style="margin-left: 120px"
+            (click)="openForgotPass()"
+          >
+            Forgot Password?
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<style>
+  main {
+    margin-top: 5rem;
+  }
+  nav {
+    background-color: #d05834;
+  }
+  .title {
+    font-size: 4rem;
+    font-weight: 900;
+    color: #d05834;
+  }
+  .title-sub {
+    font-size: 2rem;
+    font-weight: 900;
+  }
+  .img-wrapper {
+    border-color: #d05834 !important;
+  }
+</style>

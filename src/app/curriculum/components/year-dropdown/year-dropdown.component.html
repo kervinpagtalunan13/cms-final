@@ -1,4 +1,4 @@
-<div class="my-0 py-0">
+<div class="my-0 py-0" *ngIf="availableSubjects$ | async">
   <div *ngIf="descriptiveTitle" class="mt-3 mb-0" style="">
     <span class="text-secondary">{{ descriptiveTitle | titlecase }}</span>
   </div>
@@ -41,26 +41,26 @@
 <header class="d-flex justify-content-between align-items-center mt-4">
   <div *ngIf="currentUser$ | async as user" class="">
     <!-- <mat-form-field class="me-2" *ngIf="type != 'view' && (action == 'create') "> -->
-    <mat-form-field class="me-2" *ngIf="isShown()">
+    <mat-form-field class="me-2" *ngIf="isShown() && role == 'admin'">
       <mat-label>Department</mat-label>
-      <mat-select [(ngModel)]="department" [disabled]="departmentDisable()">
-        <mat-option value="1"> BSIT </mat-option>
-        <mat-option value="2"> BLIS </mat-option>
+      <mat-select [(ngModel)]="department">
+        <mat-option
+          *ngFor="let department of departments"
+          [value]="department.id"
+          >{{ department.department_code | uppercase }}</mat-option
+        >
       </mat-select>
     </mat-form-field>
 
-    <!-- <mat-form-field class="me-2" *ngIf="isShown()">
+    <mat-form-field class="me-2" *ngIf="isShown() && role != 'admin'">
       <mat-label>Department</mat-label>
-      <input type="text" >
-    </mat-form-field> -->
-
-    <!-- <mat-form-field class="me-2" *ngIf="user.role != 'admin'">
-      <mat-label>Department</mat-label>
-      <mat-select [(ngModel)]="department">
-        <mat-option value="1"> BSIT </mat-option>
-        <mat-option value="2"> BLIS </mat-option>
-      </mat-select>
-    </mat-form-field> -->
+      <input
+        type="text"
+        matInput
+        [value]="getDepartment() | uppercase"
+        [disabled]="true"
+      />
+    </mat-form-field>
 
     <mat-form-field class="example-full-width" *ngIf="isShown()">
       <mat-label>Version</mat-label>
@@ -133,6 +133,17 @@
       <mat-icon>edit</mat-icon>
       Revise
     </button>
+
+    <button
+      mat-flat-button
+      (click)="convertToPDF()"
+      color="primary"
+      class="me-2"
+      *ngIf="type == 'view'"
+    >
+      <mat-icon>print</mat-icon>
+      Print
+    </button>
   </div>
 </header>
 <mat-accordion>
@@ -187,7 +198,13 @@
                   (optionSelected)="onSubjecCodeSelected($event, x, 'firstSem')"
                 >
                   <mat-option
-                    *ngFor="let option of availableSubjects$ | async"
+                    *ngFor="
+                      let option of subjectCodeInput(
+                        x,
+                        'firstSem',
+                        'courseCode'
+                      )
+                    "
                     [value]="option.subject_code"
                   >
                     {{ option.subject_code }}
@@ -213,9 +230,15 @@
                   "
                 >
                   <mat-option
-                    *ngFor="let option of availableSubjects$ | async"
-                    [value]="option.description"
+                    *ngFor="
+                      let option of subjectCodeInput(
+                        x,
+                        'firstSem',
+                        'description'
+                      )
+                    "
                     style="font-size: 12px"
+                    [value]="option?.description"
                   >
                     {{ option.description }}
                   </mat-option>
@@ -351,7 +374,13 @@
                   "
                 >
                   <mat-option
-                    *ngFor="let option of availableSubjects$ | async"
+                    *ngFor="
+                      let option of subjectCodeInputEdit(
+                        x,
+                        'firstSem',
+                        'courseCode'
+                      )
+                    "
                     [value]="option.subject_code"
                   >
                     {{ option.subject_code }}
@@ -375,7 +404,13 @@
                   (optionSelected)="onDescEditSelected($event, x, 'firstSem')"
                 >
                   <mat-option
-                    *ngFor="let option of availableSubjects$ | async"
+                    *ngFor="
+                      let option of subjectCodeInputEdit(
+                        x,
+                        'firstSem',
+                        'description'
+                      )
+                    "
                     [value]="option.description"
                   >
                     {{ option.description }}
@@ -507,10 +542,15 @@
             <td>{{ course.labUnits }}</td>
             <td>{{ course.totalUnits }}</td>
             <td>{{ course.hoursPerWeek }}</td>
-            <td>{{ course.preReq }}</td>
-            <td>{{ course.coReq }}</td>
+            <td>{{ course.preReq || "None" }}</td>
+            <td>{{ course.coReq || "None" }}</td>
             <td>
-              <button mat-icon-button color="primary" [title]="view">
+              <button
+                mat-icon-button
+                color="primary"
+                [title]="view"
+                (click)="viewSyllabus(course.syllabus)"
+              >
                 <mat-icon>remove_red_eye</mat-icon>
               </button>
               <button
@@ -536,8 +576,8 @@
           <tr>
             <div>
               <span class="fs-6 text-dark me-2"
-                >Total Units: {{ getTotalUnits(x, 0) }}</span
-              >
+                >Total Units: {{ getTotalUnits(x, 0) }},
+              </span>
               <span class="fs-6 text-dark me-2"
                 >Total Hrs/Week: {{ getTotalHrs(x, 0) }}</span
               >
@@ -589,7 +629,13 @@
                   "
                 >
                   <mat-option
-                    *ngFor="let option of availableSubjects$ | async"
+                    *ngFor="
+                      let option of subjectCodeInput(
+                        x,
+                        'secondSem',
+                        'courseCode'
+                      )
+                    "
                     [value]="option.subject_code"
                     style="font-size: 12px"
                   >
@@ -615,7 +661,13 @@
                   "
                 >
                   <mat-option
-                    *ngFor="let option of availableSubjects$ | async"
+                    *ngFor="
+                      let option of subjectCodeInput(
+                        x,
+                        'secondSem',
+                        'description'
+                      )
+                    "
                     [value]="option.description"
                     style="font-size: 12px"
                   >
@@ -757,7 +809,13 @@
                   "
                 >
                   <mat-option
-                    *ngFor="let option of availableSubjects$ | async"
+                    *ngFor="
+                      let option of subjectCodeInputEdit(
+                        x,
+                        'secondSem',
+                        'courseCode'
+                      )
+                    "
                     [value]="option.subject_code"
                   >
                     {{ option.subject_code }}
@@ -781,7 +839,13 @@
                   (optionSelected)="onDescEditSelected($event, x, 'secondSem')"
                 >
                   <mat-option
-                    *ngFor="let option of availableSubjects$ | async"
+                    *ngFor="
+                      let option of subjectCodeInputEdit(
+                        x,
+                        'secondSem',
+                        'description'
+                      )
+                    "
                     [value]="option.description"
                   >
                     {{ option.description }}
@@ -916,10 +980,15 @@
             <td>{{ course.labUnits }}</td>
             <td>{{ course.totalUnits }}</td>
             <td>{{ course.hoursPerWeek }}</td>
-            <td>{{ course.preReq }}</td>
-            <td>{{ course.coReq }}</td>
+            <td>{{ course.preReq || "None" }}</td>
+            <td>{{ course.coReq || "None" }}</td>
             <td>
-              <button mat-icon-button color="primary" [title]="view">
+              <button
+                mat-icon-button
+                color="primary"
+                [title]="view"
+                (click)="viewSyllabus(course.syllabus)"
+              >
                 <mat-icon>remove_red_eye</mat-icon>
               </button>
               <button
@@ -945,8 +1014,8 @@
           <tr class="">
             <div class="">
               <span class="fs-6 text-dark me-2"
-                >Total Units: span {{ getTotalUnits(x, 1) }}</span
-              >
+                >Total Units: {{ getTotalUnits(x, 1) }},
+              </span>
               <span class="fs-6 text-dark me-2"
                 >Total Hrs/Week: {{ getTotalHrs(x, 1) }}</span
               >
@@ -959,6 +1028,48 @@
   </mat-expansion-panel>
   <!-- End of first Year Year -->
 </mat-accordion>
+
+<table
+  class="table-elective table table-bordered table-striped mt-2"
+  style="max-width: 600px"
+  *ngIf="!!showElectiveTable().length && department == '1'"
+>
+  <thead class="thead-dark">
+    <tr>
+      <th colspan="4" class="text-center p-0 m-0 th-elective">Electives</th>
+    </tr>
+    <tr>
+      <th class="th-elective p-0 m-0">#</th>
+      <th
+        *ngFor="let electiveSubject of electiveSubjects"
+        class="th-elective py-0 my-0"
+      >
+        {{ electiveSubject.track | uppercase }}
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let i of electiveSubjectNumberPresent()">
+      <th class="th-elective">Elective {{ i }}</th>
+      <td
+        *ngFor="let electiveSubject of selectElectiveToBeShow()"
+        class="td-elective"
+      >
+        {{
+          getElectiveSubject(electiveSubject.metadata[i - 1]) || "not yet set"
+        }}
+        <button
+          mat-icon-button
+          *ngIf="getElectiveSubject(electiveSubject.metadata[i - 1])"
+          color="primary"
+          (click)="viewPdf(getSyllabusSubject(electiveSubject.metadata[i - 1]))"
+        >
+          <mat-icon>remove_red_eye</mat-icon>
+        </button>
+      </td>
+    </tr>
+  </tbody>
+</table>
 <div class="mt-3">
   <button
     mat-flat-button

@@ -24,7 +24,9 @@
           />
 
           <mat-card-subtitle>
-            <span>{{ comment.user?.profile?.name }}</span>
+            <span>{{
+              comment.user?.profile?.name || "not set his/her name yet"
+            }}</span>
             <div>
               <small class="">{{
                 comment.created_at | timeDifferencePipe

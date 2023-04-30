@@ -4,9 +4,10 @@ import { CurriculumService } from 'src/app/core/services/curriculum.service';
 import { AuthService } from 'src/app/core/services/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from 'src/app/shared/components/confirm-dialog/confirm-dialog.component';
-import { ActivatedRoute, Router } from '@angular/router';
-import { EMPTY, catchError, combineLatest, tap } from 'rxjs';
+import { ActivatedRoute, ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router';
+import { EMPTY, Observable, catchError, combineLatest, tap } from 'rxjs';
 import { User } from 'src/app/core/models/user';
+import { ToastService } from 'src/app/shared/services/toast.service';
 
 @Component({
   selector: 'app-curriculum-create-container',
@@ -18,7 +19,8 @@ export class CurriculumCreateContainerComponent{
               private authService: AuthService,
               private dialog: MatDialog,
               private router: Router,
-              private route: ActivatedRoute
+              private route: ActivatedRoute,
+              private toast: ToastService
               ){}
 
   
@@ -35,7 +37,7 @@ export class CurriculumCreateContainerComponent{
       this.type = data['type']
       this.action = data['action']
       this.role = user.role
-      this.userDeptId = String(user.department_id)
+      this.userDeptId = user.department_id
       this.currentUser = user
       this.isLoading = false
     }),
@@ -73,17 +75,32 @@ export class CurriculumCreateContainerComponent{
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.curriculumService.createCurriculum(subj).subscribe({
+        const data = {...subj, subjects: {
+          subjects: subj.subjects,
+          electiveSubjects: subj.electiveSubjects
+        }}
+        
+        this.curriculumService.createCurriculum(data).subscribe({
           next: curriculum => {
+            this.toast.showToastSuccess('Created Successfully', `curriclum has been created`)
             this.router.navigate(['/curriculums', curriculum.id])
           },
           error: err => {
-            console.log(err);
+            this.toast.showToastError('Creation Failed', `${err.message}`)
           }
         })
+        
       } else {
       }
     });
 
   }
+
+  canDeactivate(){
+    return confirm('Are you sure you want to discard your changes?');
+  }
+}
+
+export function canDeactivateFn(component: CurriculumCreateContainerComponent, currentRoute: ActivatedRouteSnapshot, currentState: RouterStateSnapshot, nextState?: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+  return component.canDeactivate();
 }
